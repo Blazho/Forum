@@ -1,0 +1,20 @@
+
+spring:
+  application:
+    name: ForumServer
+  datasource:
+    url: jdbc:postgresql://localhost:5432/forum_db
+    username: forum_app_user
+    password: forumDbPassword
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+
+
+  flyway:
+    schemas: forum_post
+    default-schema: forum_post
