@@ -1,0 +1,20 @@
+mat-toolbar span a {
+  font-size: 18px;
+  text-decoration: none;
+  color: var(--page-font-color);
+  font-family: Arial, Helvetica, sans-serif;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+mat-toolbar {
+  display: flex;
+  justify-content: space-evenly;
+  background-image: url("/assets/banner-background.png");
+}
+
+mat-toolbar span {
+  padding: 8px;
+  margin-left: 8px;
+  margin-right: 8px;
+}

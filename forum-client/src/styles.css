@@ -1,1 +1,23 @@
-/* You can add global styles to this file, and also import other style files */
+body{
+  margin: 0;
+}
+
+:root {
+  --page-background-color: #121212;
+  --page-primary-color: #bb86fc;
+  --page-secondary-color: #03dac6;
+  --page-accent-color: #ffab40;
+  --page-border-color: #cc8a33;
+  --page-font-color: #e0e0e0;
+
+  --container-boder-radius: 3px;
+}
+
+.border-container{
+  border: 3px solid var(--page-border-color);
+  border-radius: var(--container-boder-radius);
+}
+
+.padding-bottom-10{
+  padding-bottom: 10px;
+}
