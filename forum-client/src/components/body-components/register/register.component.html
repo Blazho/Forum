@@ -1,0 +1,64 @@
+<form class="register-form" [formGroup]="registerForm">
+
+    <mat-form-field>
+        <mat-label>Username</mat-label>
+        <input matInput formControlName="username">
+        @if (registerForm.get('username')?.hasError('required')) {
+            <mat-error>Username is required</mat-error>
+        }
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input type="password" matInput formControlName="password">
+        @if (registerForm.get('password')?.hasError('required')) {
+            <mat-error>Password is required</mat-error>
+        }
+        @if (registerForm.get('password')?.hasError('minlength')) {
+            <mat-error style="width: 200px;">Password must contain at least 8 characters</mat-error> <!-- todo fix width -->
+        }
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Repeat password</mat-label>
+        <input type="password" matInput formControlName="rePassword">
+        @if (registerForm.get('rePassword')?.hasError('required')) {
+            <mat-error>Repeat password is required</mat-error>
+        }
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name">
+        @if (registerForm.get('name')?.hasError('required')) {
+            <mat-error>Name is required</mat-error>
+        }
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Surname</mat-label>
+        <input matInput formControlName="surname">
+        @if (registerForm.get('surname')?.hasError('required')) {
+            <mat-error>Surname is required</mat-error>
+        }
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input type="email" matInput formControlName="email">
+        @if (registerForm.get('email')?.hasError('required')) {
+            <mat-error>Email is required</mat-error>
+        }
+        @if (registerForm.get('email')?.hasError('email')) {
+            <mat-error>Not valid email</mat-error>
+        }
+    </mat-form-field>
+
+    <div class="padding-bottom-10">
+        <mat-error>{{ errorMessage }}</mat-error>
+    </div>
+
+
+
+    <button (click)="processRegistration()" class="submit-button" mat-flat-button>Submit</button>
+</form>

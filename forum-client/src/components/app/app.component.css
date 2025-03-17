@@ -1,0 +1,18 @@
+.wrapper{
+  width: 800px;
+  margin: 0 auto;
+}
+
+.page-background{
+  background-color: red;
+  background-image: url("/assets/page-background.png");
+}
+
+.body-page{
+  padding: 60px;
+  height: 900vh;
+  background-image: url("/assets/body-background.png");
+  background-position-x: 40%;
+  background-repeat: repeat-y;
+  background-size: contain;
+}
