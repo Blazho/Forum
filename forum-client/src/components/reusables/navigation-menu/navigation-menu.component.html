@@ -1,12 +1,12 @@
 <mat-toolbar>
-  <span><a href="/register">Create account</a></span>
-  <span><a href="#">Forum</a></span>
-  <span><a href="#">Information</a></span>
+  <span><a href="/register" mat-raised-button>Create account</a></span>
+  <span><a href="#" mat-raised-button>Forum</a></span>
+  <span><a href="#" mat-raised-button>Information</a></span>
   @if (!authenticated()) {
-    <span><a href="/login">Log in</a></span>
+    <span><a href="/login" mat-raised-button>Log in</a></span>
   }
   @else{
-    <span><a (click)="logOut()">Log out</a></span>
+    <span><a (click)="logOut()" mat-raised-button>Log out</a></span>
   }
 
 </mat-toolbar>

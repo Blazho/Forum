@@ -1,19 +1,18 @@
 .wrapper{
-  width: 800px;
+  width: 900px;
   margin: 0 auto;
 }
 
 .page-background{
-  background-color: red;
   background-image: url("/assets/page-background.png");
 }
 
 .body-page{
-  margin-top: 24px;
-  padding: 60px;
-  height: 100vh;
+  padding-top: 24px;
+  margin-top: 10px;
+  min-height: 900px;
   background-image: url("/assets/body-background.png");
   background-position-x: 40%;
   background-repeat: repeat-y;
-  background-size: contain;
+  background-size: 100% 100%;
 }
