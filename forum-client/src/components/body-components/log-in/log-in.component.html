@@ -20,7 +20,7 @@
     <div class="padding-bottom-10">
         <mat-error>{{ errorMessage }}</mat-error>
     </div>
-
-    <button  class="submit-button" mat-flat-button [disabled]="!loginForm.valid">Submit</button>
+    
+    <button  class="submit-button" mat-flat-button [disabled]="!loginForm.valid || loaderActive">Submit</button>
 
 </form>

@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'navigation-menu',
@@ -8,5 +9,20 @@ import {MatToolbarModule} from '@angular/material/toolbar';
   styleUrl: './navigation-menu.component.css'
 })
 export class NavigationMenuComponent {
+
+  private readonly router = inject(Router)
+
+  logOut(){
+    sessionStorage.clear()
+    this.router.navigate(["/login"])
+  }
+
+  authenticated(): boolean {
+    if(sessionStorage.getItem("authToken")){
+      return true
+    }else{
+      return false
+    }
+  }
 
 }
