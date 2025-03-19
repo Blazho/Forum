@@ -43,6 +43,8 @@ class JwtFilter(
             }
         }
         chain.doFilter(req, res)
+
+        SecurityContextHolder.clearContext()
     }
 
 

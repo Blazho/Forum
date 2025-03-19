@@ -24,6 +24,7 @@ class AuthService(
     fun login(username: String, password: String): String {
         val user = userDetailsService.loadUserByUsername(username)
             ?: throw UsernameNotFoundException("User not found")
+
         val authentication = authenticationManager.authenticate(UsernamePasswordAuthenticationToken(username, password))
 
         SecurityContextHolder.getContext().authentication = authentication

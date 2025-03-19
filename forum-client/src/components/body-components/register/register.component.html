@@ -60,5 +60,5 @@
 
 
 
-    <button (click)="processRegistration()" class="submit-button" mat-flat-button>Submit</button>
+    <button (click)="processRegistration()" class="submit-button" mat-flat-button [disabled]="!registerForm.valid">Submit</button>
 </form>
