@@ -5,16 +5,19 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { AuthService } from '../../../services/auth.service';
 import { RegisterRequest } from '../../../api-interfaces/requests/register.request';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
-  imports: [MatFormFieldModule, MatInputModule, MatButtonModule, ReactiveFormsModule],
+  imports: [MatFormFieldModule, MatInputModule, MatButtonModule, ReactiveFormsModule, MatProgressSpinnerModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
 export class RegisterComponent {
 
   readonly authService = inject(AuthService);
+  readonly route = inject(Router)
   
   registerForm = new FormGroup({
     username: new FormControl('', Validators.required),
@@ -26,8 +29,10 @@ export class RegisterComponent {
   })
 
   errorMessage = ''
+  loaderActive = false;
 
   processRegistration(){
+    this.loaderActive = true;
     if(this.registerForm.value.password != this.registerForm.value.rePassword){
       this.errorMessage = "Passwords do not match"
       return;
@@ -43,10 +48,12 @@ export class RegisterComponent {
 
     this.authService.register(requestObject).subscribe({
       next: registerResponse => {
-        console.log(registerResponse);
+        this.route.navigate(["/login"])
+        this.loaderActive = false;
       },
       error: error => {
         console.log(error)
+        this.loaderActive = false;
       }
     })
   }

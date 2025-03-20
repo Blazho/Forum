@@ -1,5 +1,11 @@
 <form class="login-form" [formGroup]="loginForm" (submit)="processLogin()" (change)="resetError()">
 
+    <div class="loader-container">
+        @if(loaderActive){
+            <mat-spinner diameter="50"></mat-spinner>
+        }
+    </div>
+
     <mat-form-field>
         <mat-label>Username</mat-label>
         <input matInput formControlName="username">
