@@ -1,5 +1,11 @@
 <form class="register-form" [formGroup]="registerForm">
 
+    <div class="loader-container">
+        @if(loaderActive){
+            <mat-spinner diameter="50"></mat-spinner>
+        }
+    </div>
+
     <mat-form-field>
         <mat-label>Username</mat-label>
         <input matInput formControlName="username">
@@ -60,5 +66,5 @@
 
 
 
-    <button (click)="processRegistration()" class="submit-button" mat-flat-button [disabled]="!registerForm.valid">Submit</button>
+    <button (click)="processRegistration()" class="submit-button" mat-flat-button [disabled]="!registerForm.valid || loaderActive">Submit</button>
 </form>
