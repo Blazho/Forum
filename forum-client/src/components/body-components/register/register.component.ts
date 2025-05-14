@@ -29,10 +29,10 @@ export class RegisterComponent {
   })
 
   errorMessage = ''
-  loaderActive = false;
+  isLoading = false;
 
   processRegistration(){
-    this.loaderActive = true;
+    this.isLoading = true;
     if(this.registerForm.value.password != this.registerForm.value.rePassword){
       this.errorMessage = "Passwords do not match"
       return;
@@ -49,11 +49,11 @@ export class RegisterComponent {
     this.authService.register(requestObject).subscribe({
       next: registerResponse => {
         this.route.navigate(["/login"])
-        this.loaderActive = false;
+        this.isLoading = false;
       },
       error: error => {
         console.log(error)
-        this.loaderActive = false;
+        this.isLoading = false;
       }
     })
   }

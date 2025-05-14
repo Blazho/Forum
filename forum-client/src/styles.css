@@ -2,6 +2,10 @@ body{
   margin: 0;
 }
 
+html{
+  height: 100%;
+}
+
 :root {
   --page-background-color: #121212;
   --page-primary-color: #bb86fc;
@@ -25,4 +29,6 @@ body{
 .loader-container{
   margin: 12px;
   min-height: 50px;
+  display: flex;
+  justify-content: center;
 }

@@ -1,6 +1,8 @@
 <mat-toolbar>
-  <span><a href="/register" mat-raised-button>Create account</a></span>
-  <span><a href="#" mat-raised-button>Forum</a></span>
+  @if (!authenticated()) {
+    <span><a href="/register" mat-raised-button>Create account</a></span>
+  }
+  <span><a href="/post" mat-raised-button>Forum</a></span> 
   <span><a href="#" mat-raised-button>Information</a></span>
   @if (!authenticated()) {
     <span><a href="/login" mat-raised-button>Log in</a></span>

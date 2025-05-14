@@ -1,0 +1,40 @@
+@if (isLoading) {
+        <div class="loader-container">
+            <mat-spinner></mat-spinner>
+        </div>
+}
+@else {
+    <table class="classic-forum-table">
+        <thead>
+            <tr>
+                <th class="author-cell">
+                    User
+                </th>
+                <th>
+                    Post / Reply
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @for (post of handleBarResponse?.posts; track $index) {
+                <tr>
+                    <td class="user-cell">{{post.author}}</td>
+                    <td>
+                        <div [innerHTML]="post?.html"></div>
+                        <div> {{ post?.dateCreated?.toLocaleDateString() }} </div>
+                    </td>
+                </tr>
+            }
+            
+        </tbody>
+
+    </table>
+    <mat-paginator class="sticky-bottom"
+                   [length]="handleBarResponse?.total"
+                   [pageSize]="pageSize"
+                   (page)="handlePageEvent($event)"
+    >
+
+    </mat-paginator>
+}
