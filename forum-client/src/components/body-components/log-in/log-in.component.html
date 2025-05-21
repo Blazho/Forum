@@ -1,7 +1,7 @@
 <form class="login-form" [formGroup]="loginForm" (submit)="processLogin()" (change)="resetError()">
 
     <div class="loader-container">
-        @if(loaderActive){
+        @if(isLoading){
             <mat-spinner diameter="50"></mat-spinner>
         }
     </div>
@@ -27,6 +27,6 @@
         <mat-error>{{ errorMessage }}</mat-error>
     </div>
     
-    <button  class="submit-button" mat-flat-button [disabled]="!loginForm.valid || loaderActive">Submit</button>
+    <button  class="submit-button" mat-flat-button [disabled]="!loginForm.valid || isLoading">Submit</button>
 
 </form>

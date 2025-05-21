@@ -19,7 +19,7 @@ export class LogInComponent{
   private readonly authService = inject(AuthService)
   private readonly router = inject(Router)
 
-  loaderActive = false;
+  isLoading = false;
 
   loginForm = new FormGroup({
     username: new FormControl('', Validators.required),
@@ -31,7 +31,7 @@ export class LogInComponent{
 
 
   processLogin(){
-    this.loaderActive = true;
+    this.isLoading = true;
     const logInCredentials : LogInRequest = {
       username: this.loginForm.value.username || "",
       password: this.loginForm.value.password || "",
@@ -42,12 +42,12 @@ export class LogInComponent{
       {
         next: token => {
           sessionStorage.setItem("authToken", token)
-          this.loaderActive = false;
+          this.isLoading = false;
           this.router.navigate(["/home"])
         },
         error: _ => {
           this.errorMessage = 'Invalid username or password'
-          this.loaderActive = false
+          this.isLoading = false
         }
       }
     )
