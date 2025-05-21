@@ -1,8 +1,9 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { HandlebarService } from '../../../services/handlebar.service';
-import { PostResponse } from '../../../api-interfaces/requests/post.response';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { Post } from '../../../api-interfaces/dtos/post.dto';
+import { Pageable } from '../../../api-interfaces/dtos/pageable.dts';
 
 @Component({
   selector: 'app-post-body',
@@ -13,27 +14,34 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 export class PostBodyComponent implements OnInit{
 
   private readonly handlebarService = inject(HandlebarService);
-  pageSize = 10;
-  pageIndex = 0;
   isLoading = false;
 
-  handleBarResponse: PostResponse | undefined;
+  postContent: Post[] | undefined;
+  pageablePosts: Pageable = {
+    pageNumber: 0,
+    pageSize: 10,
+    totalPosts: 0
+  };
 
   ngOnInit(): void {
     this.fetchPosts(10);
   }
 
   handlePageEvent($event: PageEvent) {
-    this.pageSize = $event.pageSize;
-    this.pageIndex = $event.pageIndex;
+    this.pageablePosts.pageNumber = $event.pageIndex
+    this.pageablePosts.pageSize = $event.pageSize
     this.fetchPosts(10);
   }
 
   fetchPosts(threadId: number){
     this.isLoading = true;
-    this.handlebarService.getPostsForThread(10, this.pageSize, this.pageIndex).subscribe({
+    this.handlebarService.getPosts(10, this.pageablePosts.pageSize, this.pageablePosts.pageNumber).subscribe({
       next: (response) => {
-        this.handleBarResponse = response;
+        this.postContent = response.content
+        this.pageablePosts.pageNumber = response.pageable.pageNumber
+        this.pageablePosts.pageSize = response.pageable.pageSize
+        this.pageablePosts.totalPosts = response.totalElements
+
         this.isLoading = false;
       },
       error: (error) => {

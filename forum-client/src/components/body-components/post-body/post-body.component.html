@@ -17,12 +17,12 @@
         </thead>
 
         <tbody>
-            @for (post of handleBarResponse?.posts; track $index) {
+            @for (post of postContent; track $index) {
                 <tr>
-                    <td class="user-cell">{{post.author}}</td>
+                    <td class="user-cell">{{ post.createdBy }}</td>
                     <td>
-                        <div [innerHTML]="post?.html"></div>
-                        <div> {{ post?.dateCreated?.toLocaleDateString() }} </div>
+                        <div [innerHTML]="post.html"></div>
+                        <div> {{ post.dateCreated }} </div>
                     </td>
                 </tr>
             }
@@ -31,8 +31,9 @@
 
     </table>
     <mat-paginator class="sticky-bottom"
-                   [length]="handleBarResponse?.total"
-                   [pageSize]="pageSize"
+                   [length]="pageablePosts.totalPosts"
+                   [pageSize]="pageablePosts.pageSize"
+                   [pageIndex]="pageablePosts.pageNumber"
                    (page)="handlePageEvent($event)"
     >
 

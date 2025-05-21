@@ -34,10 +34,6 @@
     vertical-align: top;
   }
   
-  .classic-forum-table tbody tr:hover {
-    /* background-color: #f0f0f0; */
-  }
-  
   .user-cell {
     font-weight: bold;
     /* background-color: #f9f9f9; */

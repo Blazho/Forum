@@ -1,5 +1,10 @@
-export interface Post{
+
+export interface Post {
+    id: number,
     html: string,
-    author: string,
     dateCreated: Date,
+    createdBy: string,
+    lastDateModified: Date,
+    lastModifiedBy: string,
+    thread: number
 } 
