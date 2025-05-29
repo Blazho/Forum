@@ -7,13 +7,18 @@ import jakarta.persistence.Table
 import java.time.LocalDateTime
 
 @Entity
-@Table(name = "posts", schema = "forum_post")
-data class PostEntity(
+@Table(name = "threads", schema = "forum_post")
+data class ThreadEntity(
 
-    val html: String,
+    val title: String,
+
+    val status: String?,
+
     @ManyToOne
-    @JoinColumn(name = "thread")
-    val thread: ThreadEntity,
+    @JoinColumn(name = "parent_thread")
+    val parentThread: ThreadEntity?,
+
+    val description: String,
 
     override val dateCreated: LocalDateTime,
 
@@ -26,9 +31,9 @@ data class PostEntity(
     @ManyToOne
     @JoinColumn(name = "last_modified_by")
     override val lastModifiedBy: User? = null
-): BaseClass(
+) : BaseClass(
     dateCreated = dateCreated,
     lastDateModified = lastDateModified,
     createdBy = createdBy,
     lastModifiedBy = lastModifiedBy
-    )
+)

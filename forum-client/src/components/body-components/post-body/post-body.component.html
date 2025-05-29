@@ -31,7 +31,7 @@
 
     </table>
     <mat-paginator class="sticky-bottom"
-                   [length]="pageablePosts.totalPosts"
+                   [length]="pageablePosts.totalElements"
                    [pageSize]="pageablePosts.pageSize"
                    [pageIndex]="pageablePosts.pageNumber"
                    (page)="handlePageEvent($event)"

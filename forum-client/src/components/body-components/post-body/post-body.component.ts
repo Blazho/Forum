@@ -20,7 +20,7 @@ export class PostBodyComponent implements OnInit{
   pageablePosts: Pageable = {
     pageNumber: 0,
     pageSize: 10,
-    totalPosts: 0
+    totalElements: 0
   };
 
   ngOnInit(): void {
@@ -40,7 +40,7 @@ export class PostBodyComponent implements OnInit{
         this.postContent = response.content
         this.pageablePosts.pageNumber = response.pageable.pageNumber
         this.pageablePosts.pageSize = response.pageable.pageSize
-        this.pageablePosts.totalPosts = response.totalElements
+        this.pageablePosts.totalElements = response.totalElements
 
         this.isLoading = false;
       },

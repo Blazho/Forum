@@ -22,7 +22,7 @@ class PostMapper(
 
         val pageable: Pageable = PageRequest
             .of(postRequest.pageNumber, postRequest.pageSize, Sort.by("dateCreated").ascending())
-
+        //todo Optimise: make custom query for pagination
         return postService.findPosts("test", pageable).toPageResponse { it.toDTO() }
     }
 
