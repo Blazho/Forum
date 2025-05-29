@@ -8,10 +8,6 @@ import java.time.LocalDateTime
 @Entity
 @Table(name = "forum_users", schema = "forum_post")
 data class User(
-    //todo move to base class
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null,
 
     @Column(unique = true)
     private val username: String,

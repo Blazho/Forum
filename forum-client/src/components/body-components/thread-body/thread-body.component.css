@@ -1,0 +1,11 @@
+.thread-card {
+  margin: 1rem;
+  padding: 1rem;
+}
+
+.filters {
+  display: flex;
+  gap: 1rem;
+  margin: 1rem 0;
+  flex-wrap: wrap;
+}

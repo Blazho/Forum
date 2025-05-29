@@ -16,9 +16,10 @@ data class PostDTO(
 fun PostEntity.toDTO(): PostDTO = PostDTO(
     id = this.id!!, //todo id must exist and should be hashed
     html = this.html,
-    threadId = this.thread,
+    threadId = this.thread.id!!, //thread id must exist
     dateCreated = this.dateCreated,
     lastDateModified = this.lastDateModified,
     createdBy = this.createdBy?.username,
-    lastModifiedBy = this.lastModifiedBy?.id
+    lastModifiedBy = this.lastModifiedBy?.id,
+
 )
