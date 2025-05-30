@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ThreadService } from '../../../services/thread.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -14,6 +14,7 @@ import { MatToolbar } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
 import { ThreadDTO } from '../../../api-interfaces/dtos/thread.dto';
 import { Pageable } from '../../../api-interfaces/dtos/pageable.dts';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 @Component({
   selector: 'app-thread-body',
@@ -33,10 +34,11 @@ import { Pageable } from '../../../api-interfaces/dtos/pageable.dts';
 })
 export class ThreadBodyComponent  implements OnInit{
 
-
+  private readonly router = inject(Router)
+  private readonly activatedRoute = inject(ActivatedRoute)
   private readonly threadService = inject(ThreadService);
 
-  displayedColumns: string[] = ['title', 'status', 'createdBy'];
+  displayedColumns: string[] = ['title', 'description', 'status', 'createdBy'];
   dataSource = new MatTableDataSource<ThreadDTO>();
 
   searchTerm = '';
@@ -57,21 +59,41 @@ export class ThreadBodyComponent  implements OnInit{
   loadThreads(): void {
     this.loading = true;
 
-    this.threadService
-      .listParentThreads(this.pageableThreads.pageNumber, this.pageableThreads.pageSize)
-      .subscribe({
-        next: (res) => {
-          this.dataSource.data = res.content;
-          this.pageableThreads.totalElements = res.totalElements;
-          this.pageableThreads.pageNumber = res.pageable.pageNumber;
-          this.loading = false;
+    const threadId = this.activatedRoute.snapshot.paramMap.get('threadId')
+    const threads$ = threadId
+      ? this.threadService.findChildThreads(+threadId, this.pageableThreads.pageNumber, this.pageableThreads.pageSize)
+      : this.threadService.listParentThreads(this.pageableThreads.pageNumber, this.pageableThreads.pageSize)
+
+    threads$.subscribe({
+      next: (res) => {
+        this.dataSource.data = res.data.content
+        this.pageableThreads.totalElements = res.data.totalElements;
+        this.pageableThreads.pageNumber = res.data.pageable.pageNumber;
+        this.loading = false;
+      },
+      error: (erorr: HttpErrorResponse) => {
+        console.log(erorr.error);
+        this.dataSource.data = [];
+        this.loading = false;
+      }
+    });
+    
+  }
+
+  goToThread(threadId: number) {
+    let layer = this.activatedRoute.snapshot.queryParamMap.get('layer')
+    if (layer == '2') {
+      this.router.navigate(['/threads/posts/', threadId])
+    } else {
+      const queryParam: Params = { layer: '2' }
+      this.router.navigate(['/threads', threadId],
+        {
+          relativeTo: this.activatedRoute,
+          queryParams: queryParam,
+          queryParamsHandling: 'merge'
         },
-        error: (erorr: HttpErrorResponse) => {
-          console.log(erorr.error);
-          this.dataSource.data = [];
-          this.loading = false;
-        },
-      });
+      )
+    }
   }
 
   applyFilters() {
