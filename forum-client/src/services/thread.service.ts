@@ -13,11 +13,11 @@ export class ThreadService {
     private readonly http = inject(HttpClient)
     private readonly url = "/api/thread"
 
-    listParentThreads(pageNum: number, pageSize: number): Observable<PageResponse<ThreadDTO>> {
+    listParentThreads(pageNum: number, pageSize: number): Observable<ApiResponse<PageResponse<ThreadDTO>>> {
         const params = new HttpParams()
         .set("pageNum", pageNum)
         .set("pageSize", pageSize)
-        return this.http.get<PageResponse<ThreadDTO>>(`${this.url}/list`, { params })
+        return this.http.get<ApiResponse<PageResponse<ThreadDTO>>>(`${this.url}/list`, { params })
     }
 
     getThread(threadId: number): Observable<ApiResponse<ThreadDTO>> {

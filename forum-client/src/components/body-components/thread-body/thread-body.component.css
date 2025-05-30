@@ -9,3 +9,13 @@
   margin: 1rem 0;
   flex-wrap: wrap;
 }
+
+.clickable-row {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.clickable-row:hover {
+  background-color: #e0e3e2;
+  color: #121212;
+}

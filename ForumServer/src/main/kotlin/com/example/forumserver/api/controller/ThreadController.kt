@@ -30,8 +30,8 @@ class ThreadController(
 
     @GetMapping("/list")
     fun listParentThreads(@RequestParam pageNum: Int,
-                          @RequestParam pageSize: Int): ResponseEntity<PageResponse<ThreadDTO>> {
-        return ResponseEntity.ok( threadMapper.findThreads(pageNum, pageSize) )
+                          @RequestParam pageSize: Int): ResponseEntity<ApiResponse<PageResponse<ThreadDTO>>> {
+        return ResponseEntity.ok(ApiResponse(data = threadMapper.findThreads(pageNum, pageSize)) )
     }
 
     @GetMapping("/list/{threadId}")

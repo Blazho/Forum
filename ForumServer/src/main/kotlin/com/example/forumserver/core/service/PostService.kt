@@ -8,9 +8,12 @@ import org.springframework.stereotype.Service
 
 @Service
 class PostService(
-    private val postRepository: PostRepository
+    private val postRepository: PostRepository,
+    private val threadService: ThreadService
 ) {
-    fun findPosts(thread: Any, pageable: Pageable): Page<PostEntity>{ //todo implement Thread class
-        return postRepository.findAll(pageable)
+    fun findPosts(threadId: Long, pageable: Pageable): Page<PostEntity>{
+        val thread = threadService.findThread(threadId)
+
+        return postRepository.findByThread(thread, pageable)
     }
 }

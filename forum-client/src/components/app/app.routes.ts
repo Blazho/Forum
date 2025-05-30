@@ -19,11 +19,14 @@ export const routes: Routes = [
     component: LogInComponent
   },
   {
-    path: "threads", 
-    component: ThreadBodyComponent
+    path: "threads",
+    children: [
+      { path: '', component: ThreadBodyComponent},
+      { path: ':threadId', component: ThreadBodyComponent},
+    ]
   },
   {
-    path: "posts/:threadId", 
+    path: "threads/posts/:threadId",
     component: PostBodyComponent
   },
   {

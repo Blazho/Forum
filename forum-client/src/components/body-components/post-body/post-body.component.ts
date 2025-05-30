@@ -4,6 +4,7 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { Post } from '../../../api-interfaces/dtos/post.dto';
 import { Pageable } from '../../../api-interfaces/dtos/pageable.dts';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-post-body',
@@ -14,6 +15,7 @@ import { Pageable } from '../../../api-interfaces/dtos/pageable.dts';
 export class PostBodyComponent implements OnInit{
 
   private readonly handlebarService = inject(HandlebarService);
+  private readonly activatedRoute = inject(ActivatedRoute)
   isLoading = false;
 
   postContent: Post[] | undefined;
@@ -24,7 +26,9 @@ export class PostBodyComponent implements OnInit{
   };
 
   ngOnInit(): void {
-    this.fetchPosts(10);
+    const threadId = this.activatedRoute.snapshot.paramMap.get('threadId')
+    threadId ? this.fetchPosts(+threadId) : null
+    
   }
 
   handlePageEvent($event: PageEvent) {
@@ -35,7 +39,7 @@ export class PostBodyComponent implements OnInit{
 
   fetchPosts(threadId: number){
     this.isLoading = true;
-    this.handlebarService.getPosts(10, this.pageablePosts.pageSize, this.pageablePosts.pageNumber).subscribe({
+    this.handlebarService.getPosts(threadId, this.pageablePosts.pageSize, this.pageablePosts.pageNumber).subscribe({
       next: (response) => {
         this.postContent = response.content
         this.pageablePosts.pageNumber = response.pageable.pageNumber
