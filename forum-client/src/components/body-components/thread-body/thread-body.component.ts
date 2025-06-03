@@ -10,11 +10,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatToolbar } from '@angular/material/toolbar';
+import { MatToolbar, MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
 import { ThreadDTO } from '../../../api-interfaces/dtos/thread.dto';
 import { Pageable } from '../../../api-interfaces/dtos/pageable.dts';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-thread-body',
@@ -28,7 +29,9 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
     MatIconModule,
     MatProgressBarModule,
     MatToolbar,
-    MatCardModule],
+    MatCardModule,
+    MatToolbarModule,
+    MatTooltipModule],
   templateUrl: './thread-body.component.html',
   styleUrl: './thread-body.component.css'
 })

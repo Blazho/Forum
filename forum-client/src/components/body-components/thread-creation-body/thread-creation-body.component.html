@@ -1,0 +1,64 @@
+
+<mat-card class="create-thread-container">
+  <h2 class="title">Create New Thread</h2>
+
+  <form [formGroup]="threadForm" (ngSubmit)="onSubmit()">
+
+    <!-- Title -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Title</mat-label>
+      <input matInput placeholder="Enter thread title" formControlName="title" required />
+      @if (threadForm.get('title')?.hasError('required')) {
+        <mat-error>
+          Title is required
+        </mat-error>
+      }
+    </mat-form-field>
+
+    <!-- Description -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Description</mat-label>
+      <textarea
+        matInput
+        placeholder="Describe the topic"
+        rows="5"
+        formControlName="description"
+      ></textarea>
+    </mat-form-field>
+
+    <!-- Status -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Status</mat-label>
+      <mat-select formControlName="status"> <!-- todo options -->
+        <mat-option value="OPEN">Open</mat-option>
+        <mat-option value="CLOSED">Closed</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Parent Thread (optional) -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Parent Thread</mat-label>
+      <mat-select formControlName="parentThreadId">
+        <mat-option [value]="null">None</mat-option>
+        @for (thread of parentThreads; track $index) {
+        <mat-option [value]="thread.id">
+          {{ thread.title }}
+        </mat-option>
+        }
+
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Submit -->
+    <div class="action-buttons">
+      <button mat-raised-button color="primary" type="submit" [disabled]="threadForm.invalid || loading">
+        Create Thread
+      </button>
+
+      @if (loading) {
+      <mat-progress-spinner diameter="24" mode="indeterminate" class="loading-spinner"></mat-progress-spinner>
+      }
+
+    </div>
+  </form>
+</mat-card>

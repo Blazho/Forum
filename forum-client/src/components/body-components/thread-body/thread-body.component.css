@@ -19,3 +19,16 @@
   background-color: #e0e3e2;
   color: #121212;
 }
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.action-button{
+  color: #e0e3e2;
+  transition: color 0.2s ease;
+}
+
+.action-button:hover{
+  color: #707472;
+}

@@ -4,13 +4,10 @@ import com.example.forumserver.api.dto.ThreadDTO
 import com.example.forumserver.api.mapper.ThreadMapper
 import com.example.forumserver.api.response.ApiResponse
 import com.example.forumserver.api.response.PageResponse
+import com.example.forumserver.core.entity.projection.ThreadEntityPairProjection
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/thread")
@@ -47,5 +44,20 @@ class ThreadController(
             ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(ApiResponse(error = true, errorMessage = ex.message))
         }
+    }
+
+    @PostMapping("/create")
+    fun createThread(@RequestBody threadDTO: ThreadDTO): ResponseEntity<ApiResponse<ThreadDTO>> {
+        return try {
+            ResponseEntity.ok(ApiResponse(data = threadMapper.createThread(threadDTO)))
+        } catch (ex: RuntimeException){
+            ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ApiResponse(error = true, errorMessage = ex.message))
+        }
+    }
+
+    @GetMapping("/parentable")
+    fun listParentableThreads(): ResponseEntity<ApiResponse<List<ThreadEntityPairProjection>>> {
+        return ResponseEntity.ok(ApiResponse(data = threadMapper.listParentableThreads()))
     }
 }

@@ -1,0 +1,24 @@
+.create-thread-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.title{
+  color: #e0e3e2;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.loading-spinner {
+  margin-left: 8px;
+}

@@ -4,7 +4,7 @@ import { PageResponse } from "../api-interfaces/responses/page.response";
 import { ThreadDTO } from "../api-interfaces/dtos/thread.dto";
 import { Observable } from "rxjs";
 import { ApiResponse } from "../api-interfaces/responses/api.response";
-import { T } from "@angular/cdk/keycodes";
+import { ThreadPairProjection } from "../api-interfaces/projections/thread-pair.projection";
 
 @Injectable({
         providedIn: 'root'
@@ -31,4 +31,11 @@ export class ThreadService {
         return this.http.get<ApiResponse<PageResponse<ThreadDTO>>>(`${this.url}/list/${threadId}`, { params })
     }
 
+    listParentableThreads(): Observable<ApiResponse<ThreadPairProjection[]>> {
+        return this.http.get<ApiResponse<ThreadPairProjection[]>>(`${this.url}/parentable`)
+    }
+
+    createThread(threadDTO: ThreadDTO): Observable<ApiResponse<ThreadDTO>> {
+        return this.http.post<ApiResponse<ThreadDTO>>(`${this.url}/create`, threadDTO)
+    }
 }
