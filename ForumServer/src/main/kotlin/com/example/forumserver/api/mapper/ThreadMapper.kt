@@ -4,6 +4,7 @@ import com.example.forumserver.api.dto.ThreadDTO
 import com.example.forumserver.api.dto.toDTO
 import com.example.forumserver.api.response.PageResponse
 import com.example.forumserver.api.response.toPageResponse
+import com.example.forumserver.core.entity.projection.ThreadEntityPairProjection
 import com.example.forumserver.core.service.ThreadService
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Component
@@ -26,5 +27,15 @@ class ThreadMapper(
     fun findChildThreads(threadId: Long, pageNum: Int, pageSize: Int): PageResponse<ThreadDTO> {
         val pageable = PageRequest.of(pageNum, pageSize)
         return threadService.findChildThreads(threadId, pageable).toPageResponse { it.toDTO() }
+    }
+
+    fun createThread(threadDTO: ThreadDTO): ThreadDTO? {
+        //permission
+
+        return threadService.create(threadDTO).toDTO()
+    }
+
+    fun listParentableThreads(): List<ThreadEntityPairProjection> {
+        return threadService.listAllParentableThreads()
     }
 }
