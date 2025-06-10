@@ -35,7 +35,12 @@ export class ThreadService {
         return this.http.get<ApiResponse<ThreadPairProjection[]>>(`${this.url}/parentable`)
     }
 
-    createThread(threadDTO: ThreadDTO): Observable<ApiResponse<ThreadDTO>> {
-        return this.http.post<ApiResponse<ThreadDTO>>(`${this.url}/create`, threadDTO)
+    createThread(threadDTO: ThreadDTO, threadId?: string | null): Observable<ApiResponse<ThreadDTO>> {
+        if (threadId) {
+            return this.http.put<ApiResponse<ThreadDTO>>(`${this.url}/edit/${threadId}`, threadDTO)
+        } else {
+            return this.http.post<ApiResponse<ThreadDTO>>(`${this.url}/create`, threadDTO)
+        }
+        
     }
 }

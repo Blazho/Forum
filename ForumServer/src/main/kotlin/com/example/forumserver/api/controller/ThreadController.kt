@@ -60,4 +60,14 @@ class ThreadController(
     fun listParentableThreads(): ResponseEntity<ApiResponse<List<ThreadEntityPairProjection>>> {
         return ResponseEntity.ok(ApiResponse(data = threadMapper.listParentableThreads()))
     }
+
+    @PutMapping("/edit/{threadId}")
+    fun editThread(@RequestBody threadDTO: ThreadDTO, @PathVariable threadId: Long): ResponseEntity<ApiResponse<ThreadDTO>>{
+        return try {
+            ResponseEntity.ok(ApiResponse(data = threadMapper.editThread(threadDTO, threadId)))
+        } catch (ex: RuntimeException){
+            ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ApiResponse(error = true, errorMessage = ex.message))
+        }
+    }
 }
