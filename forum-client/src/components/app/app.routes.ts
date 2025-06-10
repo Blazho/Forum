@@ -22,9 +22,10 @@ export const routes: Routes = [
   {
     path: "threads",
     children: [
-      { path: '', component: ThreadBodyComponent},
+      { path: 'edit/:threadId', component: ThreadCreationBodyComponent},
       { path: 'create', component: ThreadCreationBodyComponent},
       { path: ':threadId', component: ThreadBodyComponent},
+      { path: '', component: ThreadBodyComponent},
     ]
   },
   {

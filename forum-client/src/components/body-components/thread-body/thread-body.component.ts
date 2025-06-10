@@ -14,7 +14,7 @@ import { MatToolbar, MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
 import { ThreadDTO } from '../../../api-interfaces/dtos/thread.dto';
 import { Pageable } from '../../../api-interfaces/dtos/pageable.dts';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router, RouterLink } from '@angular/router';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
@@ -31,7 +31,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatToolbar,
     MatCardModule,
     MatToolbarModule,
-    MatTooltipModule],
+    MatTooltipModule,
+    RouterLink
+  ],
   templateUrl: './thread-body.component.html',
   styleUrl: './thread-body.component.css'
 })
@@ -41,7 +43,7 @@ export class ThreadBodyComponent  implements OnInit{
   private readonly activatedRoute = inject(ActivatedRoute)
   private readonly threadService = inject(ThreadService);
 
-  displayedColumns: string[] = ['title', 'description', 'status', 'createdBy'];
+  displayedColumns: string[] = ['title', 'description', 'status', 'createdBy', 'actions'];
   dataSource = new MatTableDataSource<ThreadDTO>();
 
   searchTerm = '';

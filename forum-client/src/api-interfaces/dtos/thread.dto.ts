@@ -10,4 +10,5 @@ export interface ThreadDTO{
     status?: String,
     parentThreadId?: number,
     description?: String,
+    hasChildren?: boolean,
 }

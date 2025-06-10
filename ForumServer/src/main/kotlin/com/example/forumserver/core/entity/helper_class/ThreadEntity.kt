@@ -10,6 +10,8 @@ import java.time.LocalDateTime
 @Table(name = "threads", schema = "forum_post")
 data class ThreadEntity(
 
+    override val id: Long?,
+
     val title: String,
 
     val status: String?,
@@ -32,6 +34,7 @@ data class ThreadEntity(
     @JoinColumn(name = "last_modified_by")
     override val lastModifiedBy: User? = null
 ) : BaseClass(
+    id = id,
     dateCreated = dateCreated,
     lastDateModified = lastDateModified,
     createdBy = createdBy,

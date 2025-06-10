@@ -4,7 +4,7 @@
     <span class="spacer"></span>
     <a 
       class="action-button"
-      href="/threads/create"
+      [routerLink]="['/threads/create']"
       matIconButton
       matTooltip="Create new thread"
       aria-label="Button that redirects to create thread page">
@@ -56,6 +56,17 @@
     <ng-container matColumnDef="createdBy">
       <th mat-header-cell *matHeaderCellDef> Created By </th>
       <td mat-cell *matCellDef="let thread"> {{thread.createdByUsername}} </td>
+    </ng-container>
+
+    <!-- Actions Column -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> Actions </th>
+      <td mat-cell *matCellDef="let thread">
+          <a class="action-button" [routerLink]="[`/threads/edit/${thread.id}`]" matIconButton matTooltip="Edit thread"
+            aria-label="Button that redirects to edit thread page">
+            <mat-icon>edit</mat-icon>
+          </a>
+      </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

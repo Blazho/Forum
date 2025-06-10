@@ -1,6 +1,6 @@
 
 <mat-card class="create-thread-container">
-  <h2 class="title">Create New Thread</h2>
+  <h2 class="title">{{ threadId ? 'Edit Thread' : 'Create New Thread'}}</h2>
 
   <form [formGroup]="threadForm" (ngSubmit)="onSubmit()">
 
@@ -41,9 +41,11 @@
       <mat-select formControlName="parentThreadId">
         <mat-option [value]="null">None</mat-option>
         @for (thread of parentThreads; track $index) {
+        @if(thread.id != loadedThread?.id){
         <mat-option [value]="thread.id">
           {{ thread.title }}
         </mat-option>
+        }
         }
 
       </mat-select>
@@ -52,7 +54,7 @@
     <!-- Submit -->
     <div class="action-buttons">
       <button mat-raised-button color="primary" type="submit" [disabled]="threadForm.invalid || loading">
-        Create Thread
+        {{ threadId ? 'Edit Thread' : 'Create Thread'}}
       </button>
 
       @if (loading) {

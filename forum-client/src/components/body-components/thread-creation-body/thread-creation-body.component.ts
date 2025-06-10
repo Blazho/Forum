@@ -7,7 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { ThreadDTO } from '../../../api-interfaces/dtos/thread.dto';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ThreadService } from '../../../services/thread.service';
 import { ThreadPairProjection } from '../../../api-interfaces/projections/thread-pair.projection';
 
@@ -24,34 +24,59 @@ import { ThreadPairProjection } from '../../../api-interfaces/projections/thread
   styleUrl: './thread-creation-body.component.css'
 })
 export class ThreadCreationBodyComponent implements OnInit{
+
   threadForm: FormGroup = new FormGroup({
     title: new FormControl('', Validators.required),
     description: new FormControl('', Validators.required),
     status: new FormControl(''),
     parentThreadId: new FormControl('')
   });
+
   parentThreads: ThreadPairProjection[] = []
   loading = false
+  loadedThread?: ThreadDTO
+  threadId: string | null = null
 
   private readonly router = inject(Router)
+  private readonly activateRoute = inject(ActivatedRoute)
   private readonly threadService = inject(ThreadService)
 
 
 
   ngOnInit(): void {
-    this.loading = true
     this.threadService.listParentableThreads().subscribe({
       next: result => {
         this.parentThreads = result.data
-        this.loading = false
       },
       error: error => {
         console.log(error);
-        
-        this.loading = false
       }
     })
-    
+
+    this.threadId = this.activateRoute.snapshot.paramMap.get('threadId')
+    if (this.threadId) {
+      this.loading = true
+      this.threadService.getThread(+this.threadId).subscribe(
+        {
+          next: threadResult => {
+            this.loadedThread = threadResult.data
+            this.threadForm.patchValue(this.loadedThread)
+            if (this.loadedThread.hasChildren) {
+              this.threadForm.get('parentThreadId')?.disable()
+            } else {
+              this.threadForm.get('parentThreadId')?.enable()
+            }
+            
+            this.loading = false
+          },
+          error: error => {
+            console.error(error.error.errorMessage);
+            this.loading = false
+          }
+        }
+      )
+    }
+
   }
 
 
@@ -66,14 +91,12 @@ export class ThreadCreationBodyComponent implements OnInit{
       parentThreadId: this.threadForm.value.parentThreadId
     }
 
-    this.threadService.createThread(threadData).subscribe({
+    this.threadService.createThread(threadData, this.threadId).subscribe({
       next: result => {
-        console.log(result);
         this.loading = false
         this.router.navigate(['threads'])
       },
       error: error => {
-        
         console.error(error.error.errorMessage);
         this.loading = false
       }

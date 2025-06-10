@@ -15,9 +15,10 @@ data class ThreadDTO(
     val status: String?,
     val parentThreadId: Long?,
     val description: String?,
+    val hasChildren: Boolean?
 )
 
-fun ThreadEntity.toDTO(): ThreadDTO  =
+fun ThreadEntity.toDTO(hasChildren: Boolean?): ThreadDTO  =
     ThreadDTO(
         id = this.id!!, //todo id must exist and should be hashed
         dateCreated = this.dateCreated,
@@ -29,5 +30,6 @@ fun ThreadEntity.toDTO(): ThreadDTO  =
         title = this.title,
         status = this.status,
         description = this.description,
-        parentThreadId = this.parentThread?.id
+        parentThreadId = this.parentThread?.id,
+        hasChildren = hasChildren
     )

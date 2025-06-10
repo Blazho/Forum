@@ -48,6 +48,7 @@ class ThreadService(
             }
 
             val threadEntity = ThreadEntity(
+                id = null,
                 title = title,
                 status = status,
                 parentThread = parentThread,
@@ -66,12 +67,54 @@ class ThreadService(
         return threadRepository.findByParentThreadNull()
     }
 
-    private fun invalidThreadFields(threadDTO: ThreadDTO) : Boolean {
+    fun edit(threadDTO: ThreadDTO, threadId: Long): ThreadEntity {
+        if(invalidThreadFields(threadDTO, true)){
+            throw RuntimeException("Invalid data provided exception!")
+        }
+
+        val oldThread = findThread(threadId)
+
         with(threadDTO){
-            return createdBy == null
+
+            val parentThread = parentThreadId?.let {
+                threadRepository.findById(it)
+                    .orElseThrow { RuntimeException("Parent thread not found exception!") }
+            }
+
+            if (parentThread != null && (threadRepository.threadHasChildren(oldThread)
+                        || listAllParentableThreads().none { it.id == parentThread.id })
+            ) {
+                throw RuntimeException("Selected parent thread can not be parent thread to this thread exception!")
+            }
+
+            val lastModifiedBy = lastModifiedBy?.let {
+                userDetailsService.findUserById(it)
+            }
+
+            val editedThread = oldThread.copy(
+                title = title.takeIf { !it.isNullOrBlank() } ?: oldThread.title,
+                status = status.takeIf { !it.isNullOrBlank() } ?: oldThread.status,
+                parentThread = parentThread,
+                description = description.takeIf { !it.isNullOrBlank() } ?: oldThread.description,
+                lastDateModified = LocalDateTime.now(),
+                lastModifiedBy = lastModifiedBy
+            )
+
+            return threadRepository.save(editedThread)
+        }
+
+    }
+
+    private fun invalidThreadFields(threadDTO: ThreadDTO, isEdit: Boolean = false) : Boolean {
+        with(threadDTO){
+            return createdBy == null && !isEdit
                     || title.isNullOrBlank()
                     || description.isNullOrBlank()
         }
+    }
+
+    fun hasChildren(thread: ThreadEntity): Boolean? {
+        return threadRepository.threadHasChildren(thread)
     }
 
 

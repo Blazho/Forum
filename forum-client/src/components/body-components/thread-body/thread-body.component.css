@@ -25,7 +25,9 @@
 }
 
 .action-button{
-  color: #e0e3e2;
+  height: 32px;
+  width: 32px;
+  color: #3bda50;
   transition: color 0.2s ease;
 }
 

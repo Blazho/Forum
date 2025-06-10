@@ -15,27 +15,33 @@ class ThreadMapper(
 ) {
     fun findThread(threadId: Long): ThreadDTO {
         //check permission
-
-        return threadService.findThread(threadId).toDTO()
+        val thread = threadService.findThread(threadId)
+        return thread.toDTO(threadService.hasChildren(thread))
     }
 
     fun findThreads(pageNum: Int, pageSize: Int): PageResponse<ThreadDTO> {
         val pageable = PageRequest.of(pageNum, pageSize)
-        return threadService.findParentThreads(pageable).toPageResponse { it.toDTO() }
+        return threadService.findParentThreads(pageable).toPageResponse { it.toDTO(null) }
     }
 
     fun findChildThreads(threadId: Long, pageNum: Int, pageSize: Int): PageResponse<ThreadDTO> {
         val pageable = PageRequest.of(pageNum, pageSize)
-        return threadService.findChildThreads(threadId, pageable).toPageResponse { it.toDTO() }
+        return threadService.findChildThreads(threadId, pageable).toPageResponse { it.toDTO(null) }
     }
 
     fun createThread(threadDTO: ThreadDTO): ThreadDTO? {
         //permission
 
-        return threadService.create(threadDTO).toDTO()
+        return threadService.create(threadDTO).toDTO(null)
     }
 
     fun listParentableThreads(): List<ThreadEntityPairProjection> {
         return threadService.listAllParentableThreads()
+    }
+
+    fun editThread(threadDTO: ThreadDTO, threadId: Long): ThreadDTO? {
+        //permission
+
+        return threadService.edit(threadDTO, threadId).toDTO(null)
     }
 }

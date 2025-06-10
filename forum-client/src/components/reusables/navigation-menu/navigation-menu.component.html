@@ -1,11 +1,11 @@
 <mat-toolbar>
   @if (!authenticated()) {
-    <span><a href="/register" mat-raised-button>Create account</a></span>
+    <span><a [routerLink] ="['/register']" mat-raised-button>Create account</a></span>
   }
-  <span><a href="/threads" mat-raised-button>Forum</a></span> 
-  <span><a href="#" mat-raised-button>Information</a></span>
+  <span><a [routerLink] ="['/threads']" mat-raised-button>Forum</a></span> 
+  <span><a routerLink ="#" mat-raised-button>Information</a></span>
   @if (!authenticated()) {
-    <span><a href="/login" mat-raised-button>Log in</a></span>
+    <span><a [routerLink] ="['/login']" mat-raised-button>Log in</a></span>
   }
   @else{
     <span><a (click)="logOut()" mat-raised-button>Log out</a></span>
