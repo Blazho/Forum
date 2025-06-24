@@ -19,4 +19,8 @@ export class PostService{
             return this.http.post<ApiResponse<PostDTO>>(`${this.url}/create`, postDTO)
         }
     }
+
+    getPost(postId: string): Observable<ApiResponse<PostDTO>> {
+      return this.http.get<ApiResponse<PostDTO>>(`${this.url}/${[postId]}`)
+    }
 }

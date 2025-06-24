@@ -8,7 +8,7 @@
     <mat-toolbar color="primary" class="toolbar">
         <span>{{ thread?.title}}</span>
         <span class="spacer"></span>
-        <a class="action-button post-button" [routerLink]="[`add`]" matIconButton matTooltip="Add post"
+        <a class="action-button" [routerLink]="[`add`]" matIconButton matTooltip="Add post"
             aria-label="Button that redirects to add post page">
             <mat-icon>add_comment</mat-icon>
         </a>
@@ -33,8 +33,28 @@
         <tr>
             <td class="user-cell">{{ post.createdBy }}</td>
             <td>
-                <div [innerHTML]="post.html"></div>
-                <div> {{ post.dateCreated }} </div>
+                <!-- Actions -->
+                <div class="post-container">
+                    <div class="post-actions">
+                        <button mat-raised-button [matMenuTriggerFor]="menu">
+                            <mat-icon>menu</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu">
+                            <button mat-button class="action-button" 
+                            [routerLink]="[`edit/${post.id}`]" 
+                            matTooltip="Add post"
+                            aria-label="Button that redirects to edit post page">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                        </mat-menu>
+                    </div>
+                    <!-- Content -->
+                    <div [innerHTML]="post.html"></div>
+                    <!-- Date created -->
+                    <div> {{ post.dateCreated }} </div>
+        
+        
+                </div>
             </td>
         </tr>
         }
