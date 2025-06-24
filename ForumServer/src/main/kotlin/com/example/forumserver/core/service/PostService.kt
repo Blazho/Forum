@@ -45,4 +45,20 @@ class PostService(
 
         return postRepository.save(postEntity)
     }
+
+    fun editPost(postBody: PostDTO, oldPost: PostEntity): PostEntity {
+        if(postBody.html.isBlank()){
+            throw RuntimeException("Content provided is blank exception!")
+        }
+
+        val lastModifiedBy = postBody.lastModifiedBy?.let { userDetailsService.findUserById(it) }
+
+        val editedPost = oldPost.copy(
+            html = postBody.html,
+            lastDateModified = LocalDateTime.now(),
+            lastModifiedBy = lastModifiedBy
+        )
+
+        return postRepository.save(editedPost)
+    }
 }

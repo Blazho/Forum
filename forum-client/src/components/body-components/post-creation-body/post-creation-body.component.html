@@ -26,11 +26,14 @@
             }
         </mat-form-field>
 
-        <!-- Submit -->
+    <!-- Submit -->
     <div class="action-buttons">
       <button mat-raised-button color="primary" type="submit" [disabled]="postForm.invalid || loading">
         {{ postId ? 'Edit Thread' : 'Create Thread'}}
       </button>
+      <!-- Cancel -->
+      <!-- type="button" prevents submition on the form-->
+      <button type="button" mat-button color="primary" (click)="cancel()" >Cancel</button>
 
     @if (loading) {
     <mat-progress-spinner diameter="24" mode="indeterminate" class="loading-spinner"></mat-progress-spinner>

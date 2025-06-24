@@ -10,6 +10,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
 import { ThreadDTO } from '../../../api-interfaces/dtos/thread.dto';
 import { ThreadService } from '../../../services/thread.service';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-post-body',
@@ -18,7 +20,9 @@ import { ThreadService } from '../../../services/thread.service';
     RouterLink, 
     MatIconModule, 
     MatToolbarModule,
-    MatCardModule
+    MatCardModule,
+    MatMenuModule,
+    MatButtonModule,
   ],
   templateUrl: './post-body.component.html',
   styleUrl: './post-body.component.css'

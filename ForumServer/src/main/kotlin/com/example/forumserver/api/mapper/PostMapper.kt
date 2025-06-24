@@ -32,5 +32,18 @@ class PostMapper(
         return postService.createPost(request).toDTO()
     }
 
+    fun getPost(postId: Long): PostDTO {
+        //permission
+
+        return postService.findPost(postId).toDTO()
+    }
+
+    fun editPost(postBody: PostDTO, postId: Long): PostDTO? {
+        //permission
+
+        val oldPost = postService.findPost(postId)
+        return postService.editPost(postBody, oldPost).toDTO()
+    }
+
 
 }

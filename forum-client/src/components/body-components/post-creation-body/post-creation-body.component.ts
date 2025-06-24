@@ -36,6 +36,7 @@ export class PostCreationBodyComponent implements OnInit{
   private readonly postService = inject(PostService)
 
   postId: string | null = null
+  post: PostDTO | null = null
   thread: ThreadDTO | null = null
   loading = false
 
@@ -45,6 +46,20 @@ export class PostCreationBodyComponent implements OnInit{
 
   ngOnInit(): void {
     this.postId = this.activatedRoute.snapshot.paramMap.get("postId")
+    if(this.postId){
+      this.loading = true
+      this.postService.getPost(this.postId).subscribe({
+        next: result => {
+          this.post = result.data
+          this.postForm.patchValue(this.post)
+          this.loading = false
+        },
+        error: error => {
+          console.log(error);
+          this.loading = false
+        }
+      })
+    }
 
     const threadId = this.activatedRoute.snapshot.paramMap.get('threadId')
     if(threadId){
@@ -69,7 +84,8 @@ export class PostCreationBodyComponent implements OnInit{
     const postData: PostDTO = {
       html: this.postForm.value.html,
       threadId: this.thread?.id,
-      createdBy: 1
+      createdBy: 1, //todo
+      lastModifiedBy: 1 //todo
     }
     
     this.postService.createPost(postData, this.postId).subscribe({
@@ -83,6 +99,10 @@ export class PostCreationBodyComponent implements OnInit{
       }
     })
     
+  }
+
+  cancel() {
+    this.router.navigate([`threads/posts/${this.thread?.id}`])
   }
 
 }

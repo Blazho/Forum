@@ -6,6 +6,6 @@ export interface PostDTO {
     createdBy?: number,
     createdByUsername?: string,
     lastDateModified?: Date,
-    lastModifiedBy?: string,
+    lastModifiedBy?: number,
     threadId?: number
 } 
