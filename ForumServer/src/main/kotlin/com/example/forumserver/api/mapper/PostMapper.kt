@@ -26,5 +26,11 @@ class PostMapper(
         return postService.findPosts(postRequest.threadId, pageable).toPageResponse { it.toDTO() }
     }
 
+    fun createPost(request: PostDTO): PostDTO? {
+        //permission
+
+        return postService.createPost(request).toDTO()
+    }
+
 
 }

@@ -32,3 +32,14 @@ html{
   display: flex;
   justify-content: center;
 }
+
+.action-button{
+  height: 32px;
+  width: 32px;
+  color: #3bda50;
+  transition: color 0.2s ease;
+}
+
+.action-button:hover{
+  color: #707472;
+}

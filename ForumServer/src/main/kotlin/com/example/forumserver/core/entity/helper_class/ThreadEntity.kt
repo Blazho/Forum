@@ -27,11 +27,11 @@ data class ThreadEntity(
     override val lastDateModified: LocalDateTime,
 
     @ManyToOne
-    @JoinColumn(name = "created_by")
+    @JoinColumn(name = "created_by") //todo move to base class
     override val createdBy: User? = null,
 
     @ManyToOne
-    @JoinColumn(name = "last_modified_by")
+    @JoinColumn(name = "last_modified_by") // todo move to base class
     override val lastModifiedBy: User? = null
 ) : BaseClass(
     id = id,

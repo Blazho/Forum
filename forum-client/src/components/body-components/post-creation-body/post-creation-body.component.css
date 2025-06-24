@@ -1,0 +1,28 @@
+.title{
+  color: #e0e3e2;
+}
+
+.create-post-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.toolbar{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.field{
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+
+.action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
