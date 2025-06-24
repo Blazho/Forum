@@ -10,7 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatToolbar, MatToolbarModule } from '@angular/material/toolbar';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
 import { ThreadDTO } from '../../../api-interfaces/dtos/thread.dto';
 import { Pageable } from '../../../api-interfaces/dtos/pageable.dts';
@@ -28,7 +28,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatButtonModule,
     MatIconModule,
     MatProgressBarModule,
-    MatToolbar,
     MatCardModule,
     MatToolbarModule,
     MatTooltipModule,

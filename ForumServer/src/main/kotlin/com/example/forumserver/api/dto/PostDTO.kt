@@ -7,9 +7,10 @@ data class PostDTO(
     val id: Long,
     val html: String,
     val threadId: Long,
-    val dateCreated: LocalDateTime,
-    val lastDateModified: LocalDateTime,
-    val createdBy: String?,
+    val dateCreated: LocalDateTime?,
+    val lastDateModified: LocalDateTime?,
+    val createdBy: Long?,
+    val createdByUsername: String?,
     val lastModifiedBy: Long?
 )
 
@@ -19,7 +20,8 @@ fun PostEntity.toDTO(): PostDTO = PostDTO(
     threadId = this.thread.id!!, //thread id must exist
     dateCreated = this.dateCreated,
     lastDateModified = this.lastDateModified,
-    createdBy = this.createdBy?.username,
+    createdBy = this.createdBy?.id,
+    createdByUsername = this.createdBy?.username,
     lastModifiedBy = this.lastModifiedBy?.id,
 
 )

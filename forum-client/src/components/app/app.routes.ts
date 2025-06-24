@@ -5,6 +5,7 @@ import { LogInComponent } from '../body-components/log-in/log-in.component';
 import { PostBodyComponent } from '../body-components/post-body/post-body.component';
 import { ThreadBodyComponent } from '../body-components/thread-body/thread-body.component';
 import { ThreadCreationBodyComponent } from '../body-components/thread-creation-body/thread-creation-body.component';
+import { PostCreationBodyComponent } from '../body-components/post-creation-body/post-creation-body.component';
 
 export const routes: Routes = [
   {
@@ -29,8 +30,12 @@ export const routes: Routes = [
     ]
   },
   {
-    path: "threads/posts/:threadId",
-    component: PostBodyComponent
+    path: "threads/posts",
+    children: [
+      { path: ':threadId/edit/:postId', component: PostCreationBodyComponent },
+      { path: ':threadId/add', component: PostCreationBodyComponent },
+      { path: ':threadId', component: PostBodyComponent }
+    ]
   },
   {
     path: "",
