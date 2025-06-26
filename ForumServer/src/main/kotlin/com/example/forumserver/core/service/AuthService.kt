@@ -49,6 +49,6 @@ class AuthService(
         )
 
         user = userRepository.save(user)
-        return jwtUtil.generateToken(user)
+        return jwtUtil.generateToken(user) // Might be redundant generating token
     }
 }

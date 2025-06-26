@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { Router, RouterLink } from '@angular/router';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'navigation-menu',
@@ -15,6 +16,7 @@ export class NavigationMenuComponent {
 
   private readonly router = inject(Router)
   private readonly dialog = inject(MatDialog)
+  private readonly authService = inject(AuthService)
 
   logOut(){
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
@@ -32,7 +34,7 @@ export class NavigationMenuComponent {
   }
 
   authenticated(): boolean {
-    if(sessionStorage.getItem("authToken")){
+    if(this.authService.getAuthToken()){
       return true
     }else{
       return false

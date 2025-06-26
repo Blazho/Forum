@@ -2,8 +2,6 @@ package com.example.forumserver.api.mapper
 
 import com.example.forumserver.api.request.LoginRequest
 import com.example.forumserver.api.request.RegisterRequest
-import com.example.forumserver.api.response.LoginResponse
-import com.example.forumserver.api.response.RegisterResponse
 import com.example.forumserver.core.service.AuthService
 import com.example.forumserver.core.service.UserDetailsService
 import org.springframework.stereotype.Component
@@ -15,20 +13,19 @@ class AuthMapper(
     private val authService: AuthService,
 ) {
 
-    fun login(loginRequest: LoginRequest): LoginResponse {
-        val token = authService.login(loginRequest.username, loginRequest.password)
-        return LoginResponse(token)
+    fun login(loginRequest: LoginRequest): String {
+        return authService.login(loginRequest.username, loginRequest.password)
     }
 
-    fun register(registerRequest: RegisterRequest): RegisterResponse {
+    fun register(registerRequest: RegisterRequest): String {
         with(registerRequest) {
 
             userDetailsService.loadUserByUsername(username)?.let {
-                throw Exception("Username already exists")
+                throw RuntimeException("Username already exists")
             }
 
             userDetailsService.loadUserByEmail(email)?.let {
-                throw Exception("Email already exists")
+                throw RuntimeException("Email already exists")
             }
 
             val token = authService.register(
@@ -39,7 +36,7 @@ class AuthMapper(
                 email = email
             )
 
-            return RegisterResponse(token)
+            return token
         }
     }
 
