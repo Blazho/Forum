@@ -41,12 +41,11 @@ export class LogInComponent{
     .subscribe(
       {
         next: token => {
-          sessionStorage.setItem("authToken", token)
           this.isLoading = false;
           this.router.navigate(["/home"])
         },
-        error: _ => {
-          this.errorMessage = 'Invalid username or password'
+        error: error => {
+          this.errorMessage = error.error.errorMessage
           this.isLoading = false
         }
       }
@@ -58,4 +57,3 @@ export class LogInComponent{
   }
 
 }
-1

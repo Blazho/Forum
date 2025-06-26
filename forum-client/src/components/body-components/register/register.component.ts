@@ -35,6 +35,7 @@ export class RegisterComponent {
     this.isLoading = true;
     if(this.registerForm.value.password != this.registerForm.value.rePassword){
       this.errorMessage = "Passwords do not match"
+      this.isLoading = false;
       return;
     }
     const requestObject: RegisterRequest = {
@@ -52,8 +53,8 @@ export class RegisterComponent {
         this.isLoading = false;
       },
       error: error => {
-        console.log(error)
-        this.isLoading = false;
+          this.errorMessage = error.error.errorMessage
+          this.isLoading = false
       }
     })
   }
