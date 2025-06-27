@@ -12,7 +12,7 @@ import java.time.LocalDateTime
 class PostService(
     private val postRepository: PostRepository,
     private val threadService: ThreadService,
-    private val userDetailsService: UserDetailsService
+    private val authService: AuthService,
 ) {
     fun findPosts(threadId: Long, pageable: Pageable): Page<PostEntity>{
         val thread = threadService.findThread(threadId)
@@ -28,9 +28,7 @@ class PostService(
         if(request.html.isBlank()){
             throw RuntimeException("Content provided is blank exception!")
         }
-
-        val createdBy = request.createdBy?.let { userDetailsService.findUserById(it) }
-
+        val createdBy = authService.getCurrentUser()
         val thread = threadService.findThread(request.threadId)
 
         val postEntity = PostEntity(
@@ -50,8 +48,7 @@ class PostService(
         if(postBody.html.isBlank()){
             throw RuntimeException("Content provided is blank exception!")
         }
-
-        val lastModifiedBy = postBody.lastModifiedBy?.let { userDetailsService.findUserById(it) }
+        val lastModifiedBy = authService.getCurrentUser()
 
         val editedPost = oldPost.copy(
             html = postBody.html,

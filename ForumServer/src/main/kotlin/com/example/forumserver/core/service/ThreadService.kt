@@ -12,7 +12,7 @@ import java.time.LocalDateTime
 @Service
 class ThreadService(
     private val threadRepository: ThreadRepository,
-    private val userDetailsService: UserDetailsService
+    private val authService: AuthService,
 ) {
     fun findParentThreads(pageable: Pageable) : Page<ThreadEntity> {
         return threadRepository.findByParentThreadNull(pageable)
@@ -33,16 +33,14 @@ class ThreadService(
         if(invalidThreadFields(threadDTO)){
             throw RuntimeException("Invalid data provided exception!")
         }
-
+        val createdBy = authService.getCurrentUser()
 
         with(threadDTO){
             val parentThread = parentThreadId?.let {
                 threadRepository.findById(it)
                     .orElseThrow { RuntimeException("Parent thread not found exception!") }
             }
-            val createdBy = createdBy?.let {
-                userDetailsService.findUserById(it)
-            }
+
             if(threadRepository.existsByTitleIgnoreCase(title!!)){
                 throw RuntimeException("Thread with the same title already exists exception!")
             }
@@ -75,7 +73,7 @@ class ThreadService(
         val oldThread = findThread(threadId)
 
         with(threadDTO){
-
+            val lastModifiedBy = authService.getCurrentUser()
             val parentThread = parentThreadId?.let {
                 threadRepository.findById(it)
                     .orElseThrow { RuntimeException("Parent thread not found exception!") }
@@ -87,9 +85,6 @@ class ThreadService(
                 throw RuntimeException("Selected parent thread can not be parent thread to this thread exception!")
             }
 
-            val lastModifiedBy = lastModifiedBy?.let {
-                userDetailsService.findUserById(it)
-            }
 
             val editedThread = oldThread.copy(
                 title = title.takeIf { !it.isNullOrBlank() } ?: oldThread.title,

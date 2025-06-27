@@ -87,7 +87,6 @@ export class ThreadCreationBodyComponent implements OnInit{
       title: this.threadForm.value.title,
       description: this.threadForm.value.description,
       status: this.threadForm.value.status,
-      createdBy: 1, //todo load id from logged in user
       parentThreadId: this.threadForm.value.parentThreadId
     }
 

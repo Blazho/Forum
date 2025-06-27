@@ -2,16 +2,17 @@
   <mat-toolbar color="primary">
     <span>Thread List</span>
     <span class="spacer"></span>
-    <a 
-      class="action-button"
-      [routerLink]="['/threads/create']"
-      matIconButton
-      matTooltip="Create new thread"
-      aria-label="Button that redirects to create thread page">
-      <mat-icon>create_new_folder</mat-icon>
-    </a>
+    @if (isLoggedIn()) {
+      <a 
+        class="action-button"
+        [routerLink]="['/threads/create']"
+        matIconButton
+        matTooltip="Create new thread"
+        aria-label="Button that redirects to create thread page">
+        <mat-icon>create_new_folder</mat-icon>
+      </a>
+    }
   </mat-toolbar>
-
 
   <div class="filters">
     <mat-form-field appearance="outline">
@@ -62,10 +63,12 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef> Actions </th>
       <td mat-cell *matCellDef="let thread">
-          <a class="action-button" [routerLink]="[`/threads/edit/${thread.id}`]" matIconButton matTooltip="Edit thread"
-            aria-label="Button that redirects to edit thread page">
-            <mat-icon>edit</mat-icon>
-          </a>
+        @if (isLoggedIn()) {
+        <a class="action-button" [routerLink]="[`/threads/edit/${thread.id}`]" matIconButton matTooltip="Edit thread"
+          aria-label="Button that redirects to edit thread page">
+          <mat-icon>edit</mat-icon>
+        </a>
+        }
       </td>
     </ng-container>
 

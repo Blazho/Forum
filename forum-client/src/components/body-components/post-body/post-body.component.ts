@@ -12,6 +12,8 @@ import { ThreadDTO } from '../../../api-interfaces/dtos/thread.dto';
 import { ThreadService } from '../../../services/thread.service';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
+import { AuthService } from '../../../services/auth.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-post-body',
@@ -20,6 +22,7 @@ import { MatButtonModule } from '@angular/material/button';
     RouterLink, 
     MatIconModule, 
     MatToolbarModule,
+    MatTooltipModule,
     MatCardModule,
     MatMenuModule,
     MatButtonModule,
@@ -32,6 +35,7 @@ export class PostBodyComponent implements OnInit{
   private readonly handlebarService = inject(HandlebarService);
   private readonly activatedRoute = inject(ActivatedRoute)
   private readonly threadService = inject(ThreadService)
+  private readonly authService = inject(AuthService)
   isLoading = false;
   thread?: ThreadDTO
 
@@ -87,5 +91,7 @@ export class PostBodyComponent implements OnInit{
     }
   }
 
-
+  isLoggedIn() {
+    return this.authService.getAuthToken() != null
+  }
 }
