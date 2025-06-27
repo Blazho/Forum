@@ -83,9 +83,7 @@ export class PostCreationBodyComponent implements OnInit{
     this.loading = true
     const postData: PostDTO = {
       html: this.postForm.value.html,
-      threadId: this.thread?.id,
-      createdBy: 1, //todo
-      lastModifiedBy: 1 //todo
+      threadId: this.thread?.id
     }
     
     this.postService.createPost(postData, this.postId).subscribe({

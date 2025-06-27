@@ -51,4 +51,11 @@ class AuthService(
         user = userRepository.save(user)
         return jwtUtil.generateToken(user) // Might be redundant generating token
     }
+
+    fun getCurrentUser(): User {
+        val authentication = SecurityContextHolder.getContext().authentication
+            ?: throw IllegalStateException("No authentication found")
+        return authentication.principal as? User
+            ?: throw IllegalStateException("Principal is not of type User")
+    }
 }

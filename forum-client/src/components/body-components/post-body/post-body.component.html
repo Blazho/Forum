@@ -8,10 +8,15 @@
     <mat-toolbar color="primary" class="toolbar">
         <span>{{ thread?.title}}</span>
         <span class="spacer"></span>
-        <a class="action-button" [routerLink]="[`add`]" matIconButton matTooltip="Add post"
+        @if (isLoggedIn()) {
+            <a class="action-button" 
+            [routerLink]="[`add`]" 
+            matIconButton 
+            matTooltip="Add post"
             aria-label="Button that redirects to add post page">
-            <mat-icon>add_comment</mat-icon>
-        </a>
+                <mat-icon>add_comment</mat-icon>
+            </a>
+        }
     </mat-toolbar>
 
 </mat-card>
@@ -33,21 +38,27 @@
         <tr>
             <td class="user-cell">{{ post.createdBy }}</td>
             <td>
-                <!-- Actions -->
+                
                 <div class="post-container">
-                    <div class="post-actions">
-                        <button mat-raised-button [matMenuTriggerFor]="menu">
-                            <mat-icon>menu</mat-icon>
-                        </button>
-                        <mat-menu #menu="matMenu">
-                            <button mat-button class="action-button" 
-                            [routerLink]="[`edit/${post.id}`]" 
-                            matTooltip="Add post"
-                            aria-label="Button that redirects to edit post page">
-                                <mat-icon>edit</mat-icon>
+
+                    @if (isLoggedIn()) {
+                        <!-- Actions -->
+                        <div class="post-actions">
+                            <button mat-raised-button [matMenuTriggerFor]="menu">
+                                <mat-icon>menu</mat-icon>
                             </button>
-                        </mat-menu>
-                    </div>
+                            <mat-menu #menu="matMenu">
+                                <button mat-button 
+                                class="action-button" 
+                                [routerLink]="[`edit/${post.id}`]" 
+                                matTooltip="Edit post"
+                                aria-label="Button that redirects to edit post page">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                            </mat-menu>
+                        </div>
+                    }
+
                     <!-- Content -->
                     <div [innerHTML]="post.html"></div>
                     <!-- Date created -->
