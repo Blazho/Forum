@@ -1,0 +1,51 @@
+<mat-card class="create-permission-container">
+    <mat-toolbar class="toolbar-margin-bottom">
+        <span>{{ permissionId ? `Edit permission: ${loadedPermission?.title}` : 'Create permission'}}</span>
+    </mat-toolbar>
+
+    <form [formGroup]="permissionForm" (ngSubmit)="onSubmit()">
+
+        <!--Title-->
+        <mat-form-field appearance="outline" class="field">
+            <mat-label>Title</mat-label>
+            <input matInput placeholder="Enter permission title" formControlName="title" required />
+                @if (permissionForm.get('title')?.hasError('required')) {
+                    <mat-error>
+                        Title is required
+                    </mat-error>
+                }
+        </mat-form-field>
+
+        <!--Description-->
+        <mat-form-field appearance="outline" class="field">
+            <mat-label>Description</mat-label>
+                <textarea matInput
+                placeholder="Enter description" 
+                formControlName="description"
+                rows="10"
+                required
+            ></textarea>
+            @if (permissionForm.get('description')?.hasError('required')) {
+                <mat-error>
+                    Description is required
+                </mat-error>
+            }
+        </mat-form-field>
+
+        <!--Action buttons-->
+        <div class="action-buttons">
+
+            <!--Submit-->
+            <button mat-raised-button color="primary" type="submit" [disabled]="permissionForm.invalid || isLoading">
+                {{ permissionId ? 'Edit permission' : 'Create permission'}}
+            </button>
+
+            <!--Cancel-->
+            <button type="button" mat-button color="primary" (click)="cancel()">Cancel</button>
+
+            @if (isLoading) {
+                <mat-progress-spinner diameter="24" mode="indeterminate" class="loading-spinner"></mat-progress-spinner>
+            }
+        </div>
+    </form>
+</mat-card>

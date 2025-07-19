@@ -52,8 +52,12 @@ data class User(
 }
 
 enum class Role: GrantedAuthority{
-    ROLE_USER,
-    ROLE_ADMIN;
+    ROLE_ANONYMOUS,
+    ROLE_BASIC_USER,
+    ROLE_INTERMEDIATE_USER,
+    ROLE_ADVANCED_USER,
+    ROLE_ADMIN,
+    ROLE_HEAD_ADMIN;
 
     override fun getAuthority() = name
 }

@@ -6,6 +6,8 @@ import { PostBodyComponent } from '../body-components/post-body/post-body.compon
 import { ThreadBodyComponent } from '../body-components/thread-body/thread-body.component';
 import { ThreadCreationBodyComponent } from '../body-components/thread-creation-body/thread-creation-body.component';
 import { PostCreationBodyComponent } from '../body-components/post-creation-body/post-creation-body.component';
+import { PermissionCreationBodyComponent } from '../body-components/permission-creation-body/permission-creation-body.component';
+import { PermissionBodyComponent } from '../body-components/permission-body/permission-body.component';
 
 export const routes: Routes = [
   {
@@ -35,6 +37,14 @@ export const routes: Routes = [
       { path: ':threadId/edit/:postId', component: PostCreationBodyComponent },
       { path: ':threadId/add', component: PostCreationBodyComponent },
       { path: ':threadId', component: PostBodyComponent }
+    ]
+  },
+  {
+    path: "permissions",
+    children: [
+      { path: "create", component: PermissionCreationBodyComponent },
+      { path: "edit/:permissionId", component: PermissionCreationBodyComponent },
+      { path: "", component: PermissionBodyComponent },
     ]
   },
   {

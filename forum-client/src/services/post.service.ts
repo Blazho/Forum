@@ -3,7 +3,6 @@ import { inject, Injectable } from "@angular/core";
 import { PostDTO } from "../api-interfaces/dtos/post.dto";
 import { Observable } from "rxjs";
 import { ApiResponse } from "../api-interfaces/responses/api.response";
-import { ThreadDTO } from "../api-interfaces/dtos/thread.dto";
 
 @Injectable({
     providedIn: 'root'

@@ -8,6 +8,7 @@
     <span><a [routerLink] ="['/login']" mat-raised-button>Log in</a></span>
   }
   @else{
+    <span><a [routerLink]="['/permissions']" mat-raised-button>Permissions</a></span>
     <span><a (click)="logOut()" mat-raised-button>Log out</a></span>
   }
 
