@@ -1,0 +1,72 @@
+<mat-card class="permission-card">
+    <mat-toolbar color="primary">
+        <span>Permissions</span>
+        <span class="spacer"></span>
+        <a 
+        class="action-button"
+        [routerLink]="['/permissions/create']"
+        matTooltip="Create permission"
+        aria-label="Button that redirect to create permission page">
+            <mat-icon>create_new_folder</mat-icon>
+        </a>
+    </mat-toolbar>
+
+    @if (isLoading) {
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    }
+
+    <table mat-table [dataSource]="permissionList">
+
+        <!--Id column-->
+        <ng-component matColumnDef="Id">
+            <th mat-header-cell *matHeaderCellDef>Id</th>
+            <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+        </ng-component>
+
+        <!--Title column-->
+        <ng-component matColumnDef="Title">
+            <th mat-header-cell *matHeaderCellDef>Title</th>
+            <td mat-cell *matCellDef="let element">{{ element.title }}</td>
+        </ng-component>
+
+        <!--Description column-->
+        <ng-component matColumnDef="Description">
+            <th mat-header-cell *matHeaderCellDef>Description</th>
+            <td mat-cell *matCellDef="let element">{{ element.description }}</td>
+        </ng-component>
+
+        <!--Date created column-->
+        <ng-component matColumnDef="Date_created">
+            <th mat-header-cell *matHeaderCellDef>Date created</th>
+            <td mat-cell *matCellDef="let element">{{ element.dateCreated }}</td>
+        </ng-component>
+
+        <!--Last date modified column-->
+        <ng-component matColumnDef="Last_date_modified">
+            <th mat-header-cell *matHeaderCellDef>Last date modified</th>
+            <td mat-cell *matCellDef="let element">{{ element.lastDateModified }}</td>
+        </ng-component>
+
+        <!--Created by column-->
+        <ng-component matColumnDef="Created_by">
+            <th mat-header-cell *matHeaderCellDef>Created by</th>
+            <td mat-cell *matCellDef="let element">{{ element.createdByUsername }}</td>
+        </ng-component>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row 
+        class="clickable-row"
+        *matRowDef="let row; columns: displayedColumns;"
+        (click)="goToPermission(row.id)"
+        ></tr>
+    </table>
+
+    <mat-paginator 
+        [length]="pageable.totalElements"
+        [pageSize]="pageable.pageSize" 
+        [pageSizeOptions]="[5, 10, 20]" 
+        (page)="changePage($event)">
+    </mat-paginator>
+
+</mat-card>
+

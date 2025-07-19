@@ -66,7 +66,7 @@ class ThreadService(
     }
 
     fun edit(threadDTO: ThreadDTO, threadId: Long): ThreadEntity {
-        if(invalidThreadFields(threadDTO, true)){
+        if(invalidThreadFields(threadDTO)){
             throw RuntimeException("Invalid data provided exception!")
         }
 
@@ -100,11 +100,9 @@ class ThreadService(
 
     }
 
-    private fun invalidThreadFields(threadDTO: ThreadDTO, isEdit: Boolean = false) : Boolean {
+    private fun invalidThreadFields(threadDTO: ThreadDTO) : Boolean {
         with(threadDTO){
-            return createdBy == null && !isEdit
-                    || title.isNullOrBlank()
-                    || description.isNullOrBlank()
+            return title.isNullOrBlank() || description.isNullOrBlank()
         }
     }
 

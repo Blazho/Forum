@@ -1,6 +1,8 @@
 package com.example.forumserver.core.service
 
 import com.example.forumserver.core.configuration.JwtUtil
+import com.example.forumserver.core.entity.enums.PermissionLayer
+import com.example.forumserver.core.entity.helper_class.Permission
 import com.example.forumserver.core.entity.helper_class.Role
 import com.example.forumserver.core.entity.helper_class.User
 import com.example.forumserver.core.repository.UserRepository
@@ -18,7 +20,8 @@ class AuthService(
     private val jwtUtil: JwtUtil,
     private val authenticationManager: AuthenticationManager,
     private val userDetailsService: UserDetailsService,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val userPermissionService: UserPermissionService
 ) {
 
     fun login(username: String, password: String): String {
@@ -36,19 +39,23 @@ class AuthService(
                  password: String,
                  firstName: String,
                  lastName: String,
-                 email: String,): String {
+                 email: String,
+                 permissions: Map<Permission, PermissionLayer>): String {
         var user = User(
             username = username,
             password = passwordEncoder.encode(password),
             firstName = firstName,
             lastName = lastName,
             email = email,
-            role = Role.ROLE_USER,
+            role = Role.ROLE_BASIC_USER,
             dateCreated = LocalDateTime.now(),
             lastDateModified = LocalDateTime.now(),
         )
 
         user = userRepository.save(user)
+
+        userPermissionService.addPermissions(user, permissions, user)
+
         return jwtUtil.generateToken(user) // Might be redundant generating token
     }
 

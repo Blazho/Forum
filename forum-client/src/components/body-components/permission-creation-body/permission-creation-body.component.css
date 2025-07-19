@@ -1,0 +1,21 @@
+.field{
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.create-permission-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+.action-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+}
+
+.toolbar-margin-bottom{
+    margin-bottom: 24px;
+}
