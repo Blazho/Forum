@@ -19,6 +19,7 @@ class PermissionService(
 
     fun findPermissionByTitle(permissionTitle: String): Permission =
         permissionRepository.findByTitleIgnoreCase(permissionTitle)
+            ?: throw RuntimeException("Permission with title $permissionTitle does not exist exception")
 
     fun createPermission(request: PermissionDTO): Permission {
         if(request.title.isBlank() || request.description.isBlank()){
@@ -60,5 +61,9 @@ class PermissionService(
     fun listPermissions(pageable: Pageable): Page<Permission> {
 
         return permissionRepository.findAll(pageable)
+    }
+
+    fun listPermissions(): List<Permission>{
+        return permissionRepository.findAll()
     }
 }

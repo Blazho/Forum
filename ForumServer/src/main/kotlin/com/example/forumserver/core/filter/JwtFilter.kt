@@ -41,6 +41,16 @@ class JwtFilter(
                     SecurityContextHolder.getContext().authentication = authToken
                 }
             }
+        }else{
+            if (SecurityContextHolder.getContext().authentication == null) {
+                val anonymousUser = userDetailsService.loadUserByUsername("Anonymous")
+                    ?: throw UsernameNotFoundException("User not found")
+                val anonymousAuth = UsernamePasswordAuthenticationToken(
+                    anonymousUser, null, anonymousUser.authorities
+                )
+                anonymousAuth.details = WebAuthenticationDetailsSource().buildDetails(request)
+                SecurityContextHolder.getContext().authentication = anonymousAuth
+            }
         }
         chain.doFilter(req, res)
 

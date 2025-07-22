@@ -2,10 +2,12 @@ package com.example.forumserver.core.service
 
 import com.example.forumserver.core.configuration.JwtUtil
 import com.example.forumserver.core.entity.enums.PermissionLayer
+import com.example.forumserver.core.entity.events.UserCreatedEvent
 import com.example.forumserver.core.entity.helper_class.Permission
 import com.example.forumserver.core.entity.helper_class.Role
 import com.example.forumserver.core.entity.helper_class.User
 import com.example.forumserver.core.repository.UserRepository
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
@@ -21,7 +23,7 @@ class AuthService(
     private val authenticationManager: AuthenticationManager,
     private val userDetailsService: UserDetailsService,
     private val userRepository: UserRepository,
-    private val userPermissionService: UserPermissionService
+    private val eventPublisher: ApplicationEventPublisher
 ) {
 
     fun login(username: String, password: String): String {
@@ -54,7 +56,7 @@ class AuthService(
 
         user = userRepository.save(user)
 
-        userPermissionService.addPermissions(user, permissions, user)
+        eventPublisher.publishEvent(UserCreatedEvent(this, user, permissions))
 
         return jwtUtil.generateToken(user) // Might be redundant generating token
     }

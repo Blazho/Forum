@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository
 @Repository
 interface PermissionRepository : JpaRepository<Permission, Long>{
 
-    fun findByTitleIgnoreCase(title: String): Permission
+    fun findByTitleIgnoreCase(title: String): Permission?
 
 }

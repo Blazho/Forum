@@ -6,12 +6,21 @@ import com.example.forumserver.core.entity.helper_class.User
 import com.example.forumserver.core.entity.helper_class.UserPermisson
 import com.example.forumserver.core.repository.UserPermissionRepository
 import org.springframework.stereotype.Service
+import java.lang.RuntimeException
 import java.time.LocalDateTime
 
 @Service
 class UserPermissionService(
-    private val userPermissionRepository: UserPermissionRepository
+    private val userPermissionRepository: UserPermissionRepository,
+    private val permissionService: PermissionService,
+    private val authService: AuthService
 ) {
+    fun findUserPermission(permission: Permission): UserPermisson {
+        val authentication = authService.getCurrentUser()
+        return userPermissionRepository.findByUserAndPermission(authentication, permission)
+            ?: throw RuntimeException("Permission for user is not found exception")
+    }
+
     fun addPermission(forUser: User, permission: Permission, permissionLayer: PermissionLayer, authenticatedUser: User) {
         userPermissionRepository.save(UserPermisson(
             id = null,
@@ -45,7 +54,11 @@ class UserPermissionService(
         userPermissionRepository.saveAll(userPermissionList)
     }
 
-
+    fun havePermission(permissionTitle: String, permissionLayer: PermissionLayer): Boolean {
+        val permission = permissionService.findPermissionByTitle(permissionTitle)
+        val userPermission = findUserPermission(permission)
+        return userPermission.permissionLayer >= permissionLayer
+    }
 
 
 }
