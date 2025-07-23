@@ -56,6 +56,8 @@
       <button mat-raised-button color="primary" type="submit" [disabled]="threadForm.invalid || loading">
         {{ threadId ? 'Edit Thread' : 'Create Thread'}}
       </button>
+      
+      <button type="button" mat-button color="primary" (click)="cancel()" >Cancel</button>
 
       @if (loading) {
       <mat-progress-spinner diameter="24" mode="indeterminate" class="loading-spinner"></mat-progress-spinner>
