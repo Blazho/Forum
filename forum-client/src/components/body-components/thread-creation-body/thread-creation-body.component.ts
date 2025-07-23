@@ -10,6 +10,7 @@ import { ThreadDTO } from '../../../api-interfaces/dtos/thread.dto';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ThreadService } from '../../../services/thread.service';
 import { ThreadPairProjection } from '../../../api-interfaces/projections/thread-pair.projection';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-thread-creation-body',
@@ -40,6 +41,7 @@ export class ThreadCreationBodyComponent implements OnInit{
   private readonly router = inject(Router)
   private readonly activateRoute = inject(ActivatedRoute)
   private readonly threadService = inject(ThreadService)
+  private readonly location = inject(Location)
 
 
 
@@ -101,6 +103,10 @@ export class ThreadCreationBodyComponent implements OnInit{
       }
     })
     
+  }
+
+  cancel() {
+    this.location.back()
   }
 
 }
