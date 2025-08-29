@@ -8,6 +8,7 @@ import { PostDTO } from "../api-interfaces/dtos/post.dto";
 @Injectable({
         providedIn: 'root'
 })
+//Need to be moved to post service
 export class HandlebarService {
 
     private readonly http = inject(HttpClient)

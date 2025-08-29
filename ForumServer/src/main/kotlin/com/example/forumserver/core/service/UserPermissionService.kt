@@ -4,6 +4,7 @@ import com.example.forumserver.core.entity.enums.PermissionLayer
 import com.example.forumserver.core.entity.helper_class.Permission
 import com.example.forumserver.core.entity.helper_class.User
 import com.example.forumserver.core.entity.helper_class.UserPermisson
+import com.example.forumserver.core.entity.projection.UserPermissionProjection
 import com.example.forumserver.core.repository.UserPermissionRepository
 import org.springframework.stereotype.Service
 import java.lang.RuntimeException
@@ -58,6 +59,14 @@ class UserPermissionService(
         val permission = permissionService.findPermissionByTitle(permissionTitle)
         val userPermission = findUserPermission(permission)
         return userPermission.permissionLayer >= permissionLayer
+    }
+
+    fun getUserPermissions(): List<UserPermissionProjection> {
+        val user = authService.getCurrentUser()
+        if(user.id == null){
+            throw RuntimeException("User id is null exception")
+        }
+        return userPermissionRepository.findUserPermissions(user.id)
     }
 
 
