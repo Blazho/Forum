@@ -12,6 +12,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../../services/auth.service';
+import { PermissionLayer, PermissionName } from '../../../api-interfaces/responses/login.response';
 
 @Component({
   selector: 'app-permission-body',
@@ -33,6 +35,7 @@ export class PermissionBodyComponent implements OnInit{
   private readonly permissionService = inject(PermissionService)
   private readonly router = inject(Router)
   private readonly activateRoute = inject(ActivatedRoute)
+  private readonly authService = inject(AuthService)
 
   isLoading = false
   permissionList: PermissionDTO[] = []
@@ -78,4 +81,13 @@ export class PermissionBodyComponent implements OnInit{
       relativeTo: this.activateRoute
     })
   }
+
+  canViewPermission(): boolean {
+    return this.authService.hasPermission(PermissionName.PROMOTE_USER_PERMISSION, PermissionLayer.VIEW)
+  }
+
+  canCreatePermission(): boolean {
+    return this.authService.hasPermission(PermissionName.PROMOTE_USER_PERMISSION, PermissionLayer.CREATE)
+  }
+  
 }

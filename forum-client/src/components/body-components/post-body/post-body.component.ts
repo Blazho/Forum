@@ -14,13 +14,14 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from '../../../services/auth.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { PermissionLayer, PermissionName } from '../../../api-interfaces/responses/login.response';
 
 @Component({
   selector: 'app-post-body',
-  imports: [MatPaginatorModule, 
+  imports: [MatPaginatorModule,
     MatProgressSpinner,
-    RouterLink, 
-    MatIconModule, 
+    RouterLink,
+    MatIconModule,
     MatToolbarModule,
     MatTooltipModule,
     MatCardModule,
@@ -61,8 +62,8 @@ export class PostBodyComponent implements OnInit{
       }
       })
     }
-    
-    
+
+
   }
 
   handlePageEvent($event: PageEvent) {
@@ -91,7 +92,19 @@ export class PostBodyComponent implements OnInit{
     }
   }
 
-  isLoggedIn() {
-    return this.authService.getAuthToken() != null
+  canViewPosts(): boolean{
+    return this.authService.hasPermission(PermissionName.POST_PERMISSION, PermissionLayer.VIEW)
+  }
+
+  canCreatePosts(): boolean{
+    console.log("User permissions:", this.authService.getPermissions());
+
+    console.log("Checking create post permission:", this.authService.hasPermission(PermissionName.POST_PERMISSION, PermissionLayer.CREATE));
+
+    return this.authService.hasPermission(PermissionName.POST_PERMISSION, PermissionLayer.CREATE)
+  }
+
+  canEditPosts(authorId?: number): boolean{
+    return this.authService.getUserId() == authorId && this.authService.hasPermission(PermissionName.POST_PERMISSION, PermissionLayer.EDIT)
   }
 }

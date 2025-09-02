@@ -26,7 +26,7 @@ export class NavigationMenuComponent {
     }).afterClosed().subscribe({
       next: result => {
         if(result == "Yes"){
-          sessionStorage.clear()
+          this.authService.clearUserData()
           this.router.navigate(["/login"])
         }
       }

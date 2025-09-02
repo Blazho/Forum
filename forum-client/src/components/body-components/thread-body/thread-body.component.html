@@ -3,21 +3,24 @@
     <span>Thread List</span>
     <span class="spacer"></span>
     @if (isLoggedIn()) {
-      <a 
-        class="action-button"
-        [routerLink]="['/threads/create']"
-        matIconButton
-        matTooltip="Create new thread"
-        aria-label="Button that redirects to create thread page">
-        <mat-icon>create_new_folder</mat-icon>
-      </a>
+    <a
+      class="action-button"
+       [routerLink]="['/threads/create']"
+      matIconButton
+      matTooltip="Create new thread"
+      aria-label="Button that redirects to create thread page">
+      <mat-icon>create_new_folder</mat-icon>
+    </a>
     }
   </mat-toolbar>
+
+
+  @if(canViewThreads()){
 
   <div class="filters">
     <mat-form-field appearance="outline">
       <mat-label>Search</mat-label>
-      <input matInput placeholder="Search threads"  (ngModelChange)="applyFilters()" />
+      <input matInput placeholder="Search threads" (ngModelChange)="applyFilters()" />
     </mat-form-field>
 
     <mat-form-field appearance="outline">
@@ -73,18 +76,24 @@
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr 
-    mat-row 
+    <tr
+    mat-row
     *matRowDef="let row; columns: displayedColumns;"
     (click)="goToThread(row.id)"
     class="clickable-row"
     ></tr>
   </table>
 
-  <mat-paginator 
+  <mat-paginator
     [length]="pageableThreads.totalElements"
-    [pageSize]="pageableThreads.pageSize" 
-    [pageSizeOptions]="[5, 10, 20]" 
+    [pageSize]="pageableThreads.pageSize"
+    [pageSizeOptions]="[5, 10, 20]"
     (page)="changePage($event)">
   </mat-paginator>
+  } @else {
+  <div class="no-access">
+    <p>You do not have permission to view threads.</p>
+  </div>
+  }
+
 </mat-card>

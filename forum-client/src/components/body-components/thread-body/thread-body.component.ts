@@ -17,6 +17,7 @@ import { Pageable } from '../../../api-interfaces/dtos/pageable.dts';
 import { ActivatedRoute, Params, Router, RouterLink } from '@angular/router';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AuthService } from '../../../services/auth.service';
+import { PermissionLayer, PermissionName } from '../../../api-interfaces/responses/login.response';
 
 @Component({
   selector: 'app-thread-body',
@@ -115,6 +116,23 @@ export class ThreadBodyComponent  implements OnInit{
 
   isLoggedIn(){
     return this.authService.getAuthToken() != null
+  }
+
+  canViewParentThreads(): boolean{
+    return this.authService.hasPermission(PermissionName.THREAD_PARENT_PERMISSION, PermissionLayer.VIEW)
+  }
+
+  canViewChildThreads(): boolean{
+    return this.authService.hasPermission(PermissionName.THREAD_CHILD_PERMISSION, PermissionLayer.VIEW)
+  }
+
+  canViewThreads(){
+    const layer = this.activatedRoute.snapshot.queryParamMap.get('layer')
+    if(layer == '2'){
+      return this.canViewChildThreads()
+    } else {
+      return this.canViewParentThreads()
+    }
   }
 
 }

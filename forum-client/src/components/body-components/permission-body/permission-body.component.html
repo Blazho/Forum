@@ -2,16 +2,17 @@
     <mat-toolbar color="primary">
         <span>Permissions</span>
         <span class="spacer"></span>
-        <a 
-        class="action-button"
-        [routerLink]="['/permissions/create']"
-        matTooltip="Create permission"
-        aria-label="Button that redirect to create permission page">
-            <mat-icon>create_new_folder</mat-icon>
-        </a>
+        @if(canCreatePermission()){
+                    <a class="action-button" 
+                    [routerLink]="['/permissions/create']" 
+                    matTooltip="Create permission"
+                    aria-label="Button that redirect to create permission page">
+                        <mat-icon>create_new_folder</mat-icon>
+                    </a>
+        }
     </mat-toolbar>
-
-    @if (isLoading) {
+@if(canViewPermission()){
+        @if (isLoading) {
         <mat-progress-bar mode="indeterminate"></mat-progress-bar>
     }
 
@@ -67,6 +68,9 @@
         [pageSizeOptions]="[5, 10, 20]" 
         (page)="changePage($event)">
     </mat-paginator>
+} @else {
+    <p>You do not have permission to view this content.</p>
+}
 
 </mat-card>
 

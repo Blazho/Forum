@@ -24,7 +24,8 @@ class AuthMapper(
 
     fun login(loginRequest: LoginRequest): LoginResponse {
         val token = authService.login(loginRequest.username, loginRequest.password)
-        val permissionsMap = userPermissionService.getUserPermissions().associate { it.title to it.permissionLayer }
+        //Enum set to integer to avoid parsing the string to number on FE
+        val permissionsMap = userPermissionService.getUserPermissions().associate { it.title to it.permissionLayer.ordinal }
         val loginResponseObject = LoginResponse(
             token = token,
             userPermissions = permissionsMap
