@@ -77,6 +77,11 @@ export class PermissionBodyComponent implements OnInit{
   }
 
   goToPermission(permissionId: number) {
+    if(!this.canEditPermission()){
+      console.warn("User does not have permission to edit permissions.");
+      return
+    }
+    
     this.router.navigate(['edit', permissionId], {
       relativeTo: this.activateRoute
     })
@@ -88,6 +93,10 @@ export class PermissionBodyComponent implements OnInit{
 
   canCreatePermission(): boolean {
     return this.authService.hasPermission(PermissionName.PROMOTE_USER_PERMISSION, PermissionLayer.CREATE)
+  }
+
+  canEditPermission(): boolean {
+    return this.authService.hasPermission(PermissionName.PROMOTE_USER_PERMISSION, PermissionLayer.EDIT)
   }
   
 }

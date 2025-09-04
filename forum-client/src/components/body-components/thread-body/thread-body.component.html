@@ -2,7 +2,7 @@
   <mat-toolbar color="primary">
     <span>Thread List</span>
     <span class="spacer"></span>
-    @if (isLoggedIn()) {
+    @if (canCreateThreads()) {
     <a
       class="action-button"
        [routerLink]="['/threads/create']"

@@ -97,10 +97,6 @@ export class PostBodyComponent implements OnInit{
   }
 
   canCreatePosts(): boolean{
-    console.log("User permissions:", this.authService.getPermissions());
-
-    console.log("Checking create post permission:", this.authService.hasPermission(PermissionName.POST_PERMISSION, PermissionLayer.CREATE));
-
     return this.authService.hasPermission(PermissionName.POST_PERMISSION, PermissionLayer.CREATE)
   }
 

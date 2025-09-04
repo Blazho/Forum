@@ -125,7 +125,7 @@ export class ThreadBodyComponent  implements OnInit{
   canViewChildThreads(): boolean{
     return this.authService.hasPermission(PermissionName.THREAD_CHILD_PERMISSION, PermissionLayer.VIEW)
   }
-
+  //possibly redundant permission check because of route guard
   canViewThreads(){
     const layer = this.activatedRoute.snapshot.queryParamMap.get('layer')
     if(layer == '2'){
@@ -133,6 +133,11 @@ export class ThreadBodyComponent  implements OnInit{
     } else {
       return this.canViewParentThreads()
     }
+  }
+
+  canCreateThreads(): boolean{
+    return this.authService.hasPermission(PermissionName.THREAD_PARENT_PERMISSION, PermissionLayer.CREATE) ||
+           this.authService.hasPermission(PermissionName.THREAD_CHILD_PERMISSION, PermissionLayer.CREATE)
   }
 
 }
