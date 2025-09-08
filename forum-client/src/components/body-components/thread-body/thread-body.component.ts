@@ -118,11 +118,11 @@ export class ThreadBodyComponent  implements OnInit{
     return this.authService.getAuthToken() != null
   }
 
-  canViewParentThreads(): boolean{
+  private canViewParentThreads(): boolean{
     return this.authService.hasPermission(PermissionName.THREAD_PARENT_PERMISSION, PermissionLayer.VIEW)
   }
 
-  canViewChildThreads(): boolean{
+  private canViewChildThreads(): boolean{
     return this.authService.hasPermission(PermissionName.THREAD_CHILD_PERMISSION, PermissionLayer.VIEW)
   }
   //possibly redundant permission check because of route guard
@@ -138,6 +138,25 @@ export class ThreadBodyComponent  implements OnInit{
   canCreateThreads(): boolean{
     return this.authService.hasPermission(PermissionName.THREAD_PARENT_PERMISSION, PermissionLayer.CREATE) ||
            this.authService.hasPermission(PermissionName.THREAD_CHILD_PERMISSION, PermissionLayer.CREATE)
+  }
+
+  canEditThreads(authorId?: number): boolean{
+    const layer = this.activatedRoute.snapshot.queryParamMap.get('layer')
+    if(layer == '2'){
+      return this.canEditChildThreads(authorId)
+    } else {
+      return this.canEditParentThreads(authorId)
+    }
+  } 
+
+  private canEditChildThreads(authorId: number | undefined): boolean {
+    const logedInUserId = this.authService.getUserId()
+    return logedInUserId == authorId && this.authService.hasPermission(PermissionName.THREAD_CHILD_PERMISSION, PermissionLayer.EDIT)
+  }
+
+  private canEditParentThreads(authorId: number | undefined): boolean {
+    const logedInUserId = this.authService.getUserId()
+    return logedInUserId == authorId && this.authService.hasPermission(PermissionName.THREAD_PARENT_PERMISSION, PermissionLayer.EDIT)
   }
 
 }
