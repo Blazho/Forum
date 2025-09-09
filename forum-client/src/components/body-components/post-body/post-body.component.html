@@ -41,13 +41,21 @@
                     
                     <div class="post-container">
 
-                        @if (canEditPosts(post.createdBy)) {
-                            <!-- Actions -->
-                            <div class="post-actions">
-                                <button mat-raised-button [matMenuTriggerFor]="menu">
-                                    <mat-icon>menu</mat-icon>
+                        <!-- Actions -->
+                        <div class="post-actions">
+                            <button mat-raised-button [matMenuTriggerFor]="menu">
+                                <mat-icon>menu</mat-icon>
+                            </button>
+                            <mat-menu #menu="matMenu">
+                                <!-- Info -->
+                                 <button mat-button 
+                                    class="action-button" 
+                                    matTooltip="Info about post"
+                                    aria-label="Button that shows more info for the post post">
+                                        <mat-icon>info</mat-icon>
                                 </button>
-                                <mat-menu #menu="matMenu">
+                                <!-- Edit -->
+                                @if (canEditPosts(post.createdBy)) {
                                     <button mat-button 
                                     class="action-button" 
                                     [routerLink]="[`edit/${post.id}`]" 
@@ -55,9 +63,20 @@
                                     aria-label="Button that redirects to edit post page">
                                         <mat-icon>edit</mat-icon>
                                     </button>
-                                </mat-menu>
-                            </div>
-                        }
+                                }
+                                <!-- Delete -->
+                                @if(canDeletePost()){
+                                    <button mat-button 
+                                    class="action-button" 
+                                    matTooltip="Delete post"
+                                    aria-label="Button that deletes post after confirmation"
+                                    (click)="openDeleteDialog(post.id)">
+                                        <mat-icon>delete</mat-icon>
+                                    </button>
+                                }
+                                
+                            </mat-menu>
+                        </div>
 
                         <!-- Content -->
                         <div [innerHTML]="post.html"></div>

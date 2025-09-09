@@ -15,6 +15,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from '../../../services/auth.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { PermissionLayer, PermissionName } from '../../../api-interfaces/responses/login.response';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '../../reusables/confirmation-dialog/confirmation-dialog.component';
+import { PostService } from '../../../services/post.service';
 
 @Component({
   selector: 'app-post-body',
@@ -37,6 +40,9 @@ export class PostBodyComponent implements OnInit{
   private readonly activatedRoute = inject(ActivatedRoute)
   private readonly threadService = inject(ThreadService)
   private readonly authService = inject(AuthService)
+  private readonly dialog = inject(MatDialog)
+  private readonly postService = inject(PostService)
+  
   isLoading = false;
   thread?: ThreadDTO
 
@@ -92,6 +98,28 @@ export class PostBodyComponent implements OnInit{
     }
   }
 
+  openDeleteDialog(postId: number|undefined) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        dialogContent: "Do you want to delete this post?"
+      }
+    }).afterClosed().subscribe({
+      next: result => {
+        if(result == "Yes"){
+          this.postService.deletePost(postId!!).subscribe({
+            next: (response) => {
+              console.log(response);
+              this.fetchPosts()
+            },
+            error: (error) => {
+              console.log(error);
+            }
+          })
+        }
+      }
+    })
+  }
+
   canViewPosts(): boolean{
     return this.authService.hasPermission(PermissionName.POST_PERMISSION, PermissionLayer.VIEW)
   }
@@ -102,5 +130,9 @@ export class PostBodyComponent implements OnInit{
 
   canEditPosts(authorId?: number): boolean{
     return this.authService.getUserId() == authorId && this.authService.hasPermission(PermissionName.POST_PERMISSION, PermissionLayer.EDIT)
+  }
+
+  canDeletePost(): boolean {
+    return this.authService.hasPermission(PermissionName.POST_PERMISSION, PermissionLayer.DELETE)
   }
 }

@@ -1,6 +1,7 @@
 package com.example.forumserver.core.service
 
 import com.example.forumserver.api.dto.PostDTO
+import com.example.forumserver.core.entity.enums.EntityStatus
 import com.example.forumserver.core.entity.helper_class.PostEntity
 import com.example.forumserver.core.repository.PostRepository
 import org.springframework.data.domain.Page
@@ -14,10 +15,10 @@ class PostService(
     private val threadService: ThreadService,
     private val authService: AuthService,
 ) {
-    fun findPosts(threadId: Long, pageable: Pageable): Page<PostEntity>{
+    fun findThreadActivePosts(threadId: Long, pageable: Pageable): Page<PostEntity>{
         val thread = threadService.findThread(threadId)
 
-        return postRepository.findByThread(thread, pageable)
+        return postRepository.findByThreadAndEntityStatus(thread, EntityStatus.ACTIVE, pageable)
     }
 
     fun findPost(postId: Long): PostEntity =
@@ -35,10 +36,11 @@ class PostService(
             id = null,
             html = request.html,
             thread = thread,
+            dateCreated = LocalDateTime.now(),
+            lastDateModified = LocalDateTime.now(),
             createdBy = createdBy,
             lastModifiedBy = createdBy,
-            dateCreated = LocalDateTime.now(),
-            lastDateModified = LocalDateTime.now()
+            entityStatus = EntityStatus.ACTIVE
         )
 
         return postRepository.save(postEntity)
@@ -57,5 +59,13 @@ class PostService(
         )
 
         return postRepository.save(editedPost)
+    }
+
+    fun deletePost(post: PostEntity): String {
+        postRepository.save(
+            post.copy(entityStatus = EntityStatus.DELETED)
+        )
+
+        return "Post successfully deleted"
     }
 }

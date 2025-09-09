@@ -11,4 +11,5 @@ export interface ThreadDTO{
     parentThreadId?: number,
     description?: String,
     hasChildren?: boolean,
+    entityStatus?: string
 }

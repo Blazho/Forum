@@ -1,6 +1,7 @@
 package com.example.forumserver.core.service
 
 import com.example.forumserver.api.dto.PermissionDTO
+import com.example.forumserver.core.entity.enums.EntityStatus
 import com.example.forumserver.core.entity.helper_class.Permission
 import com.example.forumserver.core.repository.PermissionRepository
 import org.springframework.data.domain.Page
@@ -35,7 +36,8 @@ class PermissionService(
             createdBy = createdBy,
             lastModifiedBy = createdBy,
             dateCreated = LocalDateTime.now(),
-            lastDateModified = LocalDateTime.now()
+            lastDateModified = LocalDateTime.now(),
+            entityStatus = EntityStatus.ACTIVE
         )
 
         return permissionRepository.save(permission)
@@ -60,7 +62,7 @@ class PermissionService(
 
     fun listPermissions(pageable: Pageable): Page<Permission> {
 
-        return permissionRepository.findAll(pageable)
+        return permissionRepository.findByEntityStatus(EntityStatus.ACTIVE, pageable)
     }
 
     fun listPermissions(): List<Permission>{

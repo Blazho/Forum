@@ -7,6 +7,7 @@ import com.example.forumserver.api.response.ApiResponse
 import com.example.forumserver.api.response.PageResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -50,6 +51,16 @@ class PostController(
     fun editPost(@RequestBody postBody: PostDTO, @PathVariable postId: Long): ResponseEntity<ApiResponse<PostDTO>>{
         return try {
             ResponseEntity.ok(ApiResponse(data = postMapper.editPost(postBody, postId)))
+        }catch (ex: RuntimeException){
+            ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ApiResponse(error = true, errorMessage = ex.message))
+        }
+    }
+
+    @DeleteMapping("/delete/{postId}")
+    fun deletePost(@PathVariable postId: Long): ResponseEntity<ApiResponse<String>>{
+        return try {
+            ResponseEntity.ok(ApiResponse(data = postMapper.deletePost(postId)))
         }catch (ex: RuntimeException){
             ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ApiResponse(error = true, errorMessage = ex.message))

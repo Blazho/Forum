@@ -1,6 +1,7 @@
 package com.example.forumserver.core.service
 
 import com.example.forumserver.api.dto.ThreadDTO
+import com.example.forumserver.core.entity.enums.EntityStatus
 import com.example.forumserver.core.entity.helper_class.ThreadEntity
 import com.example.forumserver.core.entity.projection.ThreadEntityPairProjection
 import com.example.forumserver.core.repository.ThreadRepository
@@ -15,9 +16,9 @@ class ThreadService(
     private val authService: AuthService,
 ) {
     fun findParentThreads(pageable: Pageable) : Page<ThreadEntity> {
-        return threadRepository.findByParentThreadNull(pageable)
+        return threadRepository.findByParentThreadNullAndEntityStatus(EntityStatus.ACTIVE, pageable)
     }
-
+    //todo TBD if entity status need to be checked before returning ThreadEntity
     fun findThread(threadId: Long): ThreadEntity {
         return threadRepository.findById(threadId)
             .orElseThrow { RuntimeException("Thread not found") }
@@ -26,7 +27,7 @@ class ThreadService(
 
     fun findChildThreads(threadId: Long, pageable: Pageable): Page<ThreadEntity>{
         val parentThread = findThread(threadId)
-        return threadRepository.findByParentThread(parentThread, pageable)
+        return threadRepository.findByParentThreadAndEntityStatus(parentThread, EntityStatus.ACTIVE, pageable)
     }
 
     fun create(threadDTO: ThreadDTO): ThreadEntity {
@@ -54,7 +55,8 @@ class ThreadService(
                 dateCreated = LocalDateTime.now(),
                 lastDateModified = LocalDateTime.now(),
                 createdBy = createdBy,
-                lastModifiedBy = createdBy
+                lastModifiedBy = createdBy,
+                entityStatus = EntityStatus.ACTIVE
             )
 
             return threadRepository.save(threadEntity)
@@ -62,7 +64,7 @@ class ThreadService(
     }
 
     fun listAllParentableThreads(): List<ThreadEntityPairProjection> {
-        return threadRepository.findByParentThreadNull()
+        return threadRepository.findByParentThreadNull(EntityStatus.ACTIVE)
     }
 
     fun edit(threadDTO: ThreadDTO, threadId: Long): ThreadEntity {
@@ -79,7 +81,7 @@ class ThreadService(
                     .orElseThrow { RuntimeException("Parent thread not found exception!") }
             }
 
-            if (parentThread != null && (threadRepository.threadHasChildren(oldThread)
+            if (parentThread != null && (threadRepository.threadHasChildren(oldThread, EntityStatus.ACTIVE)
                         || listAllParentableThreads().none { it.id == parentThread.id })
             ) {
                 throw RuntimeException("Selected parent thread can not be parent thread to this thread exception!")
@@ -106,8 +108,16 @@ class ThreadService(
         }
     }
 
-    fun hasChildren(thread: ThreadEntity): Boolean? {
-        return threadRepository.threadHasChildren(thread)
+    fun hasChildren(thread: ThreadEntity): Boolean {
+        return threadRepository.threadHasChildren(thread, EntityStatus.ACTIVE)
+    }
+
+    fun deleteThread(threadToDel: ThreadEntity): String {
+        threadRepository.save(
+            threadToDel.copy(entityStatus = EntityStatus.DELETED)
+        )
+
+        return "Thread deleted successfully"
     }
 
 

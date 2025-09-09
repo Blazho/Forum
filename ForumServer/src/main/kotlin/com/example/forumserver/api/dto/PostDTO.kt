@@ -1,5 +1,6 @@
 package com.example.forumserver.api.dto
 
+import com.example.forumserver.core.entity.enums.EntityStatus
 import com.example.forumserver.core.entity.helper_class.PostEntity
 import java.time.LocalDateTime
 
@@ -11,7 +12,8 @@ data class PostDTO(
     val lastDateModified: LocalDateTime?,
     val createdBy: Long?,
     val createdByUsername: String?,
-    val lastModifiedBy: Long?
+    val lastModifiedBy: Long?,
+    val entityStatus: EntityStatus?
 )
 
 fun PostEntity.toDTO(): PostDTO = PostDTO(
@@ -23,5 +25,5 @@ fun PostEntity.toDTO(): PostDTO = PostDTO(
     createdBy = this.createdBy?.id,
     createdByUsername = this.createdBy?.username,
     lastModifiedBy = this.lastModifiedBy?.id,
-
+    entityStatus = this.entityStatus
 )

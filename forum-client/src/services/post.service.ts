@@ -22,4 +22,8 @@ export class PostService{
     getPost(postId: string): Observable<ApiResponse<PostDTO>> {
       return this.http.get<ApiResponse<PostDTO>>(`${this.url}/${[postId]}`)
     }
+
+    deletePost(postId: number): Observable<ApiResponse<String>> {
+        return this.http.delete<ApiResponse<String>>(`${this.url}/delete/${postId}`)
+    }
 }

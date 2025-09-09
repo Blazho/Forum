@@ -18,6 +18,8 @@ import { ActivatedRoute, Params, Router, RouterLink } from '@angular/router';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AuthService } from '../../../services/auth.service';
 import { PermissionLayer, PermissionName } from '../../../api-interfaces/responses/login.response';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '../../reusables/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-thread-body',
@@ -44,6 +46,7 @@ export class ThreadBodyComponent  implements OnInit{
   private readonly activatedRoute = inject(ActivatedRoute)
   private readonly threadService = inject(ThreadService);
   private readonly authService = inject(AuthService);
+  private readonly dialog = inject(MatDialog)
 
   displayedColumns: string[] = ['title', 'description', 'status', 'createdBy', 'actions'];
   dataSource = new MatTableDataSource<ThreadDTO>();
@@ -157,6 +160,38 @@ export class ThreadBodyComponent  implements OnInit{
   private canEditParentThreads(authorId: number | undefined): boolean {
     const logedInUserId = this.authService.getUserId()
     return logedInUserId == authorId && this.authService.hasPermission(PermissionName.THREAD_PARENT_PERMISSION, PermissionLayer.EDIT)
+  }
+
+  canDeleteThreads(): boolean {
+    const layer = this.activatedRoute.snapshot.queryParamMap.get('layer')
+    if(layer == '2'){
+      return this.authService.hasPermission(PermissionName.THREAD_CHILD_PERMISSION, PermissionLayer.DELETE)
+    } else {
+      return this.authService.hasPermission(PermissionName.THREAD_PARENT_PERMISSION, PermissionLayer.DELETE)
+    }
+  }
+
+  confirmDelete($event: MouseEvent, threadId: number) {
+    $event.stopPropagation();
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        dialogContent: "Do you want to delete this thread?"
+      }
+    }).afterClosed().subscribe({
+      next: result => {
+        if(result == "Yes"){
+          this.threadService.deleteThread(threadId).subscribe({
+            next: (response) => {
+              console.log(response);
+              this.loadThreads()
+            },
+            error: (error) => {
+              console.log(error);
+            }
+          })
+        }
+      }
+    })
   }
 
 }

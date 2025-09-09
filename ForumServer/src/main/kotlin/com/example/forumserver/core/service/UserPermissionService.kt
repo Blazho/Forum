@@ -1,5 +1,6 @@
 package com.example.forumserver.core.service
 
+import com.example.forumserver.core.entity.enums.EntityStatus
 import com.example.forumserver.core.entity.enums.PermissionLayer
 import com.example.forumserver.core.entity.helper_class.Permission
 import com.example.forumserver.core.entity.helper_class.User
@@ -32,6 +33,7 @@ class UserPermissionService(
             lastDateModified = LocalDateTime.now(),
             createdBy = authenticatedUser,
             lastModifiedBy = authenticatedUser,
+            entityStatus = EntityStatus.ACTIVE
         ))
     }
 
@@ -49,6 +51,7 @@ class UserPermissionService(
                 lastDateModified = LocalDateTime.now(),
                 createdBy = authenticatedUser,
                 lastModifiedBy = authenticatedUser,
+                entityStatus = EntityStatus.ACTIVE
             ))
         }
 

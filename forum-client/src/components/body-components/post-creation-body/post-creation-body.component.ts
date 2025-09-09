@@ -75,8 +75,8 @@ export class PostCreationBodyComponent implements OnInit{
         }
       })
     }
-    
-    
+
+
   }
 
   onSubmit() {
@@ -85,7 +85,7 @@ export class PostCreationBodyComponent implements OnInit{
       html: this.postForm.value.html,
       threadId: this.thread?.id
     }
-    
+
     this.postService.createPost(postData, this.postId).subscribe({
       next: result => {
         this.loading = false
@@ -96,7 +96,7 @@ export class PostCreationBodyComponent implements OnInit{
         this.loading = false
       }
     })
-    
+
   }
 
   cancel() {

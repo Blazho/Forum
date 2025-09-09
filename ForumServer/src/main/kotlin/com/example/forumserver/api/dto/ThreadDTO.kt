@@ -1,5 +1,6 @@
 package com.example.forumserver.api.dto
 
+import com.example.forumserver.core.entity.enums.EntityStatus
 import com.example.forumserver.core.entity.helper_class.ThreadEntity
 import java.time.LocalDateTime
 
@@ -15,7 +16,8 @@ data class ThreadDTO(
     val status: String?,
     val parentThreadId: Long?,
     val description: String?,
-    val hasChildren: Boolean?
+    val hasChildren: Boolean?,
+    val entityStatus: EntityStatus?
 )
 
 fun ThreadEntity.toDTO(hasChildren: Boolean?): ThreadDTO  =
@@ -31,5 +33,6 @@ fun ThreadEntity.toDTO(hasChildren: Boolean?): ThreadDTO  =
         status = this.status,
         description = this.description,
         parentThreadId = this.parentThread?.id,
-        hasChildren = hasChildren
+        hasChildren = hasChildren,
+        entityStatus = this.entityStatus
     )

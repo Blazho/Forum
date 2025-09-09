@@ -65,12 +65,25 @@
     <!-- Actions Column -->
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef> Actions </th>
-      <td mat-cell *matCellDef="let thread">
+      <td mat-cell *matCellDef="let thread">                  
+        <!--Edit-->
         @if (canEditThreads(thread.createdBy)) {
-        <a class="action-button" [routerLink]="[`/threads/edit/${thread.id}`]" matIconButton matTooltip="Edit thread"
+        <a class="action-button" 
+          [routerLink]="[`/threads/edit/${thread.id}`]" 
+          matIconButton matTooltip="Edit thread"
           aria-label="Button that redirects to edit thread page">
-          <mat-icon>edit</mat-icon>
+            <mat-icon>edit</mat-icon>
         </a>
+        }
+        <!--Delete-->
+        @if (canDeleteThreads()) {
+          <button mat-icon-button
+            class="action-button"
+            (click)="confirmDelete($event, thread.id)"
+            matTooltip="Delete thread"
+            aria-label="Button that deletes thread after confirmation">
+              <mat-icon>delete</mat-icon>
+          </button>
         }
       </td>
     </ng-container>
