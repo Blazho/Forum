@@ -8,7 +8,7 @@
     <mat-toolbar color="primary" class="toolbar">
         <span>{{ thread?.title}}</span>
         <span class="spacer"></span>
-        @if (isLoggedIn()) {
+        @if (canCreatePosts()) {
             <a class="action-button" 
             [routerLink]="[`add`]" 
             matIconButton 
@@ -20,64 +20,90 @@
     </mat-toolbar>
 
 </mat-card>
+    @if (canViewPosts()) {
+        <table class="classic-forum-table">
+        <thead>
+            <tr>
+                <th class="author-cell">
+                    User
+                </th>
+                <th>
+                    Post / Reply
+                </th>
+            </tr>
+        </thead>
 
-<table class="classic-forum-table">
-    <thead>
-        <tr>
-            <th class="author-cell">
-                User
-            </th>
-            <th>
-                Post / Reply
-            </th>
-        </tr>
-    </thead>
+        <tbody>
+            @for (post of postContent; track $index) {
+            <tr>
+                <td class="user-cell">{{ post.createdBy }}</td>
+                <td>
+                    
+                    <div class="post-container">
 
-    <tbody>
-        @for (post of postContent; track $index) {
-        <tr>
-            <td class="user-cell">{{ post.createdBy }}</td>
-            <td>
-                
-                <div class="post-container">
-
-                    @if (isLoggedIn()) {
                         <!-- Actions -->
                         <div class="post-actions">
                             <button mat-raised-button [matMenuTriggerFor]="menu">
                                 <mat-icon>menu</mat-icon>
                             </button>
                             <mat-menu #menu="matMenu">
-                                <button mat-button 
-                                class="action-button" 
-                                [routerLink]="[`edit/${post.id}`]" 
-                                matTooltip="Edit post"
-                                aria-label="Button that redirects to edit post page">
-                                    <mat-icon>edit</mat-icon>
+                                <!-- Info -->
+                                 <button mat-button 
+                                    class="action-button" 
+                                    matTooltip="Info about post"
+                                    aria-label="Button that shows more info for the post post">
+                                        <mat-icon>info</mat-icon>
                                 </button>
+                                <!-- Edit -->
+                                @if (canEditPosts(post.createdBy)) {
+                                    <button mat-button 
+                                    class="action-button" 
+                                    [routerLink]="[`edit/${post.id}`]" 
+                                    matTooltip="Edit post"
+                                    aria-label="Button that redirects to edit post page">
+                                        <mat-icon>edit</mat-icon>
+                                    </button>
+                                }
+                                <!-- Delete -->
+                                @if(canDeletePost()){
+                                    <button mat-button 
+                                    class="action-button" 
+                                    matTooltip="Delete post"
+                                    aria-label="Button that deletes post after confirmation"
+                                    (click)="openDeleteDialog(post.id)">
+                                        <mat-icon>delete</mat-icon>
+                                    </button>
+                                }
+                                
                             </mat-menu>
                         </div>
-                    }
 
-                    <!-- Content -->
-                    <div [innerHTML]="post.html"></div>
-                    <!-- Date created -->
-                    <div> {{ post.dateCreated }} </div>
-        
-        
-                </div>
-            </td>
-        </tr>
-        }
+                        <!-- Content -->
+                        <div [innerHTML]="post.html"></div>
+                        <!-- Date created -->
+                        <div> {{ post.dateCreated }} </div>
+            
+            
+                    </div>
+                </td>
+            </tr>
+            }
 
-    </tbody>
+        </tbody>
 
-</table>
-<mat-paginator class="sticky-bottom" 
-    [length]="pageablePosts.totalElements" 
-    [pageSize]="pageablePosts.pageSize"
-    [pageIndex]="pageablePosts.pageNumber" 
-    (page)="handlePageEvent($event)">
+        </table>
+        <mat-paginator class="sticky-bottom" 
+            [length]="pageablePosts.totalElements" 
+            [pageSize]="pageablePosts.pageSize"
+            [pageIndex]="pageablePosts.pageNumber" 
+            (page)="handlePageEvent($event)">
 
-</mat-paginator>
+        </mat-paginator>
+    }  @else {
+        <mat-card>
+            <mat-card-content>
+                You do not have permission to view posts. Please contact an administrator.
+            </mat-card-content>
+        </mat-card>
+    }
 }

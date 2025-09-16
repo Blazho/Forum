@@ -1,6 +1,7 @@
 package com.example.forumserver.core.service
 
 import com.example.forumserver.core.configuration.JwtUtil
+import com.example.forumserver.core.entity.enums.EntityStatus
 import com.example.forumserver.core.entity.enums.PermissionLayer
 import com.example.forumserver.core.entity.events.UserCreatedEvent
 import com.example.forumserver.core.entity.helper_class.Permission
@@ -52,6 +53,7 @@ class AuthService(
             role = Role.ROLE_BASIC_USER,
             dateCreated = LocalDateTime.now(),
             lastDateModified = LocalDateTime.now(),
+            entityStatus = EntityStatus.ACTIVE
         )
 
         user = userRepository.save(user)

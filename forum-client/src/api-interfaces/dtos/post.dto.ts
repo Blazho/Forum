@@ -7,5 +7,6 @@ export interface PostDTO {
     createdByUsername?: string,
     lastDateModified?: Date,
     lastModifiedBy?: number,
-    threadId?: number
+    threadId?: number,
+    entityStatus?: string
 } 

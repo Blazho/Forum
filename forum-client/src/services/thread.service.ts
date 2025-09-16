@@ -43,4 +43,8 @@ export class ThreadService {
         }
         
     }
+
+    deleteThread(threadId: number): Observable<ApiResponse<String>> {
+        return this.http.delete<ApiResponse<String>>(`${this.url}/delete/${threadId}`)
+    }
 }

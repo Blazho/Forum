@@ -6,6 +6,7 @@ import com.example.forumserver.api.response.PageResponse
 import com.example.forumserver.api.response.toPageResponse
 import com.example.forumserver.core.configuration.THREAD_CHILD_PERMISSION
 import com.example.forumserver.core.configuration.THREAD_PARENT_PERMISSION
+import com.example.forumserver.core.entity.enums.EntityStatus
 import com.example.forumserver.core.entity.enums.PermissionLayer
 import com.example.forumserver.core.entity.projection.ThreadEntityPairProjection
 import com.example.forumserver.core.service.AuthService
@@ -23,10 +24,19 @@ class ThreadMapper(
     fun findThread(threadId: Long): ThreadDTO {
         //check permission
         val thread = threadService.findThread(threadId)
+        if (thread.parentThread != null){
+            if(!userPermissionService.havePermission(THREAD_PARENT_PERMISSION, PermissionLayer.VIEW)){
+                throw RuntimeException("User does not have view permission for parent thread")
+            }
+        }else{
+            if(!userPermissionService.havePermission(THREAD_CHILD_PERMISSION, PermissionLayer.VIEW)){
+                throw RuntimeException("USer does not have view permission for child thread")
+            }
+        }
         return thread.toDTO(threadService.hasChildren(thread))
     }
 
-    fun findThreads(pageNum: Int, pageSize: Int): PageResponse<ThreadDTO> {
+    fun findParentableThreadsPageable(pageNum: Int, pageSize: Int): PageResponse<ThreadDTO> {
         if (!userPermissionService.havePermission(THREAD_PARENT_PERMISSION, PermissionLayer.VIEW)){
             throw RuntimeException("User does not have view permission for parent threads")
         }
@@ -81,5 +91,30 @@ class ThreadMapper(
         }
 
         return threadService.edit(threadDTO, threadId).toDTO(null)
+    }
+
+    fun deletePost(threadId: Long): String {
+        val threadToDel = threadService.findThread(threadId)
+
+        if(threadToDel.entityStatus == EntityStatus.DELETED){
+            throw RuntimeException("Thread already deleted")
+        }
+
+        val isParentThread = threadToDel.parentThread == null
+
+        if(isParentThread){
+            if(!userPermissionService.havePermission(THREAD_PARENT_PERMISSION, PermissionLayer.DELETE)){
+                throw RuntimeException("User does not have parent thread delete permission")
+            }
+            if(threadService.hasChildren(threadToDel)){
+                throw RuntimeException("Cannot delete parent thread that has child threads")
+            }
+        }else{
+            if(!userPermissionService.havePermission(THREAD_CHILD_PERMISSION, PermissionLayer.DELETE)){
+                throw RuntimeException("User does not have child thread delete permission")
+            }
+        }
+
+        return threadService.deleteThread(threadToDel)
     }
 }

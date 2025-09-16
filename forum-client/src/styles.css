@@ -34,12 +34,12 @@ html{
 }
 
 .action-button{
-  height: 32px;
-  width: 32px;
-  color: #3bda50;
-  transition: color 0.2s ease;
+  height: 32px !important;
+  width: 32px !important;
+  color: #3bda50 !important;
+  transition: color 0.2s ease !important;
 }
 
 .action-button:hover{
-  color: #707472;
+  color: #707472 !important;
 }

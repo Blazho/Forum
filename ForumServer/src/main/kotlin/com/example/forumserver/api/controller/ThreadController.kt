@@ -28,7 +28,7 @@ class ThreadController(
     @GetMapping("/list")
     fun listParentThreads(@RequestParam pageNum: Int,
                           @RequestParam pageSize: Int): ResponseEntity<ApiResponse<PageResponse<ThreadDTO>>> {
-        return ResponseEntity.ok(ApiResponse(data = threadMapper.findThreads(pageNum, pageSize)) )
+        return ResponseEntity.ok(ApiResponse(data = threadMapper.findParentableThreadsPageable(pageNum, pageSize)) )
     }
 
     @GetMapping("/list/{threadId}")
@@ -66,6 +66,16 @@ class ThreadController(
         return try {
             ResponseEntity.ok(ApiResponse(data = threadMapper.editThread(threadDTO, threadId)))
         } catch (ex: RuntimeException){
+            ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ApiResponse(error = true, errorMessage = ex.message))
+        }
+    }
+
+    @DeleteMapping("/delete/{threadId}")
+    fun deleteThread(@PathVariable threadId: Long): ResponseEntity<ApiResponse<String>>{
+        return try {
+            ResponseEntity.ok(ApiResponse(data = threadMapper.deletePost(threadId)))
+        }catch (ex: RuntimeException){
             ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ApiResponse(error = true, errorMessage = ex.message))
         }

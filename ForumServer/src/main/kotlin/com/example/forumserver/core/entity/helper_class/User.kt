@@ -1,5 +1,6 @@
 package com.example.forumserver.core.entity.helper_class
 
+import com.example.forumserver.core.entity.enums.EntityStatus
 import jakarta.persistence.*
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
@@ -35,7 +36,9 @@ data class User(
 
     @ManyToOne
     @JoinColumn(name = "last_modified_by")
-    override val lastModifiedBy: User? = null
+    override val lastModifiedBy: User? = null,
+
+    override val entityStatus: EntityStatus
 
 ) : BaseClass(
     dateCreated = dateCreated,

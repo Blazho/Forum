@@ -6,6 +6,7 @@ import com.example.forumserver.api.request.PostRequest
 import com.example.forumserver.api.response.PageResponse
 import com.example.forumserver.api.response.toPageResponse
 import com.example.forumserver.core.configuration.POST_PERMISSION
+import com.example.forumserver.core.entity.enums.EntityStatus
 import com.example.forumserver.core.entity.enums.PermissionLayer
 import com.example.forumserver.core.service.AuthService
 import com.example.forumserver.core.service.PostService
@@ -29,7 +30,7 @@ class PostMapper(
         val pageable: Pageable = PageRequest
             .of(postRequest.pageNumber, postRequest.pageSize, Sort.by("dateCreated").ascending())
         //todo Optimise: make custom query for pagination
-        return postService.findPosts(postRequest.threadId, pageable).toPageResponse { it.toDTO() }
+        return postService.findThreadActivePosts(postRequest.threadId, pageable).toPageResponse { it.toDTO() }
     }
 
     fun createPost(request: PostDTO): PostDTO? {
@@ -50,12 +51,30 @@ class PostMapper(
         val authentication = authService.getCurrentUser()
         val oldPost = postService.findPost(postId)
 
+        if(oldPost.entityStatus == EntityStatus.DELETED || oldPost.entityStatus == EntityStatus.SUSPENDED){
+            throw RuntimeException("Post deleted or suspended")
+        }
+
         if(!userPermissionService.havePermission(POST_PERMISSION, PermissionLayer.EDIT)
             || oldPost.createdBy != authentication ){
             throw RuntimeException("User does not have permission to edit posts")
         }
 
         return postService.editPost(postBody, oldPost).toDTO()
+    }
+
+    fun deletePost(postId: Long): String {
+        val post = postService.findPost(postId)
+
+        if(post.entityStatus == EntityStatus.DELETED){
+            throw RuntimeException("Post already deleted")
+        }
+
+        if(!userPermissionService.havePermission(POST_PERMISSION, PermissionLayer.DELETE)){
+            throw RuntimeException("User does not have permission to delete or is not author of the post")
+        }
+
+        return postService.deletePost(post)
     }
 
 

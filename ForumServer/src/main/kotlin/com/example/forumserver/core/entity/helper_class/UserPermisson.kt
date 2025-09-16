@@ -1,5 +1,6 @@
 package com.example.forumserver.core.entity.helper_class
 
+import com.example.forumserver.core.entity.enums.EntityStatus
 import com.example.forumserver.core.entity.enums.PermissionLayer
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
@@ -34,8 +35,9 @@ data class UserPermisson(
 
     @ManyToOne
     @JoinColumn(name = "last_modified_by") //todo move to base class
-    override val lastModifiedBy: User? = null
+    override val lastModifiedBy: User? = null,
 
+    override val entityStatus: EntityStatus
 ): BaseClass(
     id = id,
     dateCreated = dateCreated,

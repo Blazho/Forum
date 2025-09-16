@@ -8,6 +8,9 @@ import { ThreadCreationBodyComponent } from '../body-components/thread-creation-
 import { PostCreationBodyComponent } from '../body-components/post-creation-body/post-creation-body.component';
 import { PermissionCreationBodyComponent } from '../body-components/permission-creation-body/permission-creation-body.component';
 import { PermissionBodyComponent } from '../body-components/permission-body/permission-body.component';
+import { NoAccessBodyComponent } from '../body-components/no-access-body/no-access-body.component';
+import { PermissionGuard } from '../../services/permission.guard';
+import { PermissionLayer, PermissionName } from '../../api-interfaces/responses/login.response';
 
 export const routes: Routes = [
   {
@@ -25,27 +28,93 @@ export const routes: Routes = [
   {
     path: "threads",
     children: [
-      { path: 'edit/:threadId', component: ThreadCreationBodyComponent},
-      { path: 'create', component: ThreadCreationBodyComponent},
-      { path: ':threadId', component: ThreadBodyComponent},
-      { path: '', component: ThreadBodyComponent},
+      { path: 'edit/:threadId', component: ThreadCreationBodyComponent,
+        canActivate: [PermissionGuard],
+        data: {
+          permission: [
+            {permission: PermissionName.THREAD_PARENT_PERMISSION, layer: PermissionLayer.EDIT},
+            {permission: PermissionName.THREAD_CHILD_PERMISSION, layer: PermissionLayer.EDIT}
+          ]
+       }
+      },
+      { path: 'create', component: ThreadCreationBodyComponent,
+        canActivate: [PermissionGuard],
+        data: {
+          permission: [
+            {permission: PermissionName.THREAD_PARENT_PERMISSION, layer: PermissionLayer.CREATE},
+            {permission: PermissionName.THREAD_CHILD_PERMISSION, layer: PermissionLayer.CREATE}
+          ]
+       }
+      },
+      { path: ':threadId', component: ThreadBodyComponent,
+        canActivate: [PermissionGuard],
+        data: {
+          permission: [
+            {permission: PermissionName.THREAD_CHILD_PERMISSION, layer: PermissionLayer.VIEW}
+          ]
+       }
+      },
+      { path: '', component: ThreadBodyComponent,
+        canActivate: [PermissionGuard],
+        data: {
+          permission: [
+            {permission: PermissionName.THREAD_PARENT_PERMISSION, layer: PermissionLayer.VIEW}
+          ]
+       }
+      },
     ]
   },
   {
     path: "threads/posts",
     children: [
-      { path: ':threadId/edit/:postId', component: PostCreationBodyComponent },
-      { path: ':threadId/add', component: PostCreationBodyComponent },
-      { path: ':threadId', component: PostBodyComponent }
+      { path: ':threadId/edit/:postId', component: PostCreationBodyComponent,
+        canActivate: [PermissionGuard],
+        data: {
+          permission: [{permission: PermissionName.POST_PERMISSION, layer: PermissionLayer.EDIT}]
+       }
+       },
+      { path: ':threadId/add', component: PostCreationBodyComponent,
+        canActivate: [PermissionGuard],
+        data: {
+          permission: [{permission: PermissionName.POST_PERMISSION, layer: PermissionLayer.CREATE}]
+       }
+      },
+      { 
+        path: ':threadId',
+        component: PostBodyComponent,
+        canActivate: [PermissionGuard],
+        data: {
+          permission: [{permission: PermissionName.POST_PERMISSION, layer: PermissionLayer.VIEW}]
+        }
+       }
     ]
   },
   {
     path: "permissions",
     children: [
-      { path: "create", component: PermissionCreationBodyComponent },
-      { path: "edit/:permissionId", component: PermissionCreationBodyComponent },
-      { path: "", component: PermissionBodyComponent },
+      { path: "create", component: PermissionCreationBodyComponent,
+        canActivate: [PermissionGuard],
+        data: {
+          permission: [{permission: PermissionName.PROMOTE_USER_PERMISSION, layer: PermissionLayer.CREATE}]
+       }
+       },
+      { path: "edit/:permissionId", component: PermissionCreationBodyComponent,
+        canActivate: [PermissionGuard],
+        data: {
+          permission: [{permission: PermissionName.PROMOTE_USER_PERMISSION, layer: PermissionLayer.EDIT}]
+       }
+       },
+      { path: "", component: PermissionBodyComponent,
+        canActivate: [PermissionGuard],
+        data: {
+          permission: [{permission: PermissionName.PROMOTE_USER_PERMISSION, layer: PermissionLayer.VIEW}]
+       }
+       },
     ]
+  },
+  {
+    path: "no-access",
+    component: NoAccessBodyComponent
   },
   {
     path: "",
