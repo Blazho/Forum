@@ -13,7 +13,6 @@ export class PermissionGuard implements CanActivate{
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
         const requiredPermission = route.data["permission"] as [{permission: PermissionName, layer: PermissionLayer}] | undefined
-        console.log("Required permission for route", requiredPermission);
         
         if(!requiredPermission){
             console.warn("No permission defined for route, allowing access by default for route: " + state.url);

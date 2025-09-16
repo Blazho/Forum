@@ -41,4 +41,8 @@ export class NavigationMenuComponent {
     }
   }
 
+  getUsername(): string | null {
+    return this.authService.getUsername();
+  }
+
 }

@@ -32,4 +32,7 @@ interface ThreadRepository : JpaRepository<ThreadEntity, Long> {
     //todo TBD if entity status need to be checked before returning ThreadEntity
     fun existsByTitleIgnoreCase(title: String): Boolean
 
+    fun existsByTitleIgnoreCaseAndEntityStatus(title: String, entityStatus: EntityStatus): Boolean
+
+
 }

@@ -42,7 +42,7 @@ class ThreadService(
                     .orElseThrow { RuntimeException("Parent thread not found exception!") }
             }
 
-            if(threadRepository.existsByTitleIgnoreCase(title!!)){
+            if(threadRepository.existsByTitleIgnoreCaseAndEntityStatus(title!!, EntityStatus.ACTIVE)){
                 throw RuntimeException("Thread with the same title already exists exception!")
             }
 

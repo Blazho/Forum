@@ -20,6 +20,7 @@ export class AuthService{
     private path = '/api/auth'
     private http = inject(HttpClient)
     private readonly AUTH_TOKEN_NAME = "AUTH_TOKEN"
+    private readonly USERNAME_STRING = "USERNAME"
     private permissions: PermissionDictionary = {}
 
     constructor(){
@@ -58,7 +59,7 @@ export class AuthService{
                     if(response.data){
                         this.setPermissions(response.data.userPermissions)
                     } 
-                    
+                    sessionStorage.setItem(this.USERNAME_STRING, logInRequest.username)
                     sessionStorage.setItem(this.AUTH_TOKEN_NAME, response.data.token)
                 }
             })
@@ -67,6 +68,7 @@ export class AuthService{
 
     clearUserData() {
         sessionStorage.removeItem(this.AUTH_TOKEN_NAME);
+        sessionStorage.removeItem(this.USERNAME_STRING);
         this.clearPermissions()
         sessionStorage.clear()
     }
@@ -90,6 +92,10 @@ export class AuthService{
             console.error("Failed to decode token", e);
             return null;
         }
+    }
+
+    getUsername(): string | null {
+        return sessionStorage.getItem(this.USERNAME_STRING);
     }
 
     private addAnonymousePermissions(){

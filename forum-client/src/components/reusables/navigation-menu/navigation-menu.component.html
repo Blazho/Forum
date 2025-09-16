@@ -9,6 +9,7 @@
   }
   @else{
     <span><a [routerLink]="['/permissions']" mat-raised-button>Permissions</a></span>
+    <span>{{ getUsername() }}</span>
     <span><a (click)="logOut()" mat-raised-button>Log out</a></span>
   }
 
