@@ -11,4 +11,12 @@ CREATE TABLE forum_post.forum_users(
     created_by bigint,
     last_modified_by bigint,
     entity_status varchar(50)
-)
+);
+
+ALTER TABLE forum_post.forum_users
+    ADD CONSTRAINT fk_users_created_by
+        FOREIGN KEY (created_by)
+        REFERENCES forum_post.forum_users(id),
+    ADD CONSTRAINT fk_users_last_modified_by
+        FOREIGN KEY (last_modified_by)
+        REFERENCES forum_post.forum_users(id);

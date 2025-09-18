@@ -12,9 +12,9 @@ BEGIN
 
     FOR i IN 1..array_length(v_permission_layers, 1) LOOP
         CALL add_test_user_and_user_permissions(
-            'testuser_' || i,
             'testuser_' || v_permission_layers[i],
-            'hasperm',
+            'testuser_' || i,
+            v_permission_layers[i],
             v_permission_titles,
             v_permission_layers[i]
         );
@@ -34,6 +34,10 @@ AS $$
 BEGIN
     IF p_permissions IS NULL OR array_length(p_permissions, 1) IS NULL THEN
         RAISE EXCEPTION 'Permissions and Permission Layers cannot be null';
+    END IF;
+
+    IF EXISTS (SELECT * FROM forum_post.forum_users where LOWER(username) = LOWER(p_username)) THEN
+        RAISE EXCEPTION 'User with username: % already exist' , p_username;
     END IF;
 
     INSERT INTO forum_post.forum_users
@@ -69,3 +73,5 @@ BEGIN
     END LOOP;
 END;
 $$;
+
+CALL add_test_users();
