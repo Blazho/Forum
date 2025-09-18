@@ -1,8 +1,9 @@
-CREATE TABLE forum_post.user_permissions(
+CREATE TABLE forum_post.threads(
     id bigserial primary key,
-    user_id bigserial not null,
-    permission_id bigserial not null,
-    permission_layer varchar(15),
+    title varchar(50) not null ,
+    status varchar(10),
+    parent_thread bigint,
+    description varchar(200) not null,
     date_created timestamptz,
     last_date_modified timestamptz,
     created_by bigint,
@@ -10,10 +11,10 @@ CREATE TABLE forum_post.user_permissions(
     entity_status varchar(50)
 );
 
-ALTER TABLE forum_post.user_permissions
+ALTER TABLE forum_post.threads
     ADD CONSTRAINT fk_users_created_by
         FOREIGN KEY (created_by) REFERENCES forum_post.forum_users(id),
     ADD CONSTRAINT fk_users_last_modified_by
         FOREIGN KEY (last_modified_by) REFERENCES forum_post.forum_users(id),
-    ADD CONSTRAINT fk_permission_id
-        FOREIGN KEY (permission_id) REFERENCES forum_post.permissions;
+    ADD CONSTRAINT fk_parent_thread
+        FOREIGN KEY (parent_thread) REFERENCES forum_post.threads(id);
