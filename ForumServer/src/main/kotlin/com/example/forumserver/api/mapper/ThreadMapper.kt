@@ -8,7 +8,7 @@ import com.example.forumserver.core.configuration.THREAD_CHILD_PERMISSION
 import com.example.forumserver.core.configuration.THREAD_PARENT_PERMISSION
 import com.example.forumserver.core.entity.enums.EntityStatus
 import com.example.forumserver.core.entity.enums.PermissionLayer
-import com.example.forumserver.core.entity.projection.ThreadEntityPairProjection
+import com.example.forumserver.core.entity.projections.ThreadEntityPairProjection
 import com.example.forumserver.core.service.AuthService
 import com.example.forumserver.core.service.ThreadService
 import com.example.forumserver.core.service.UserPermissionService

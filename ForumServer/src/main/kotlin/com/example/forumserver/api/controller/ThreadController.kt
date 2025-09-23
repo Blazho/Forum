@@ -4,7 +4,7 @@ import com.example.forumserver.api.dto.ThreadDTO
 import com.example.forumserver.api.mapper.ThreadMapper
 import com.example.forumserver.api.response.ApiResponse
 import com.example.forumserver.api.response.PageResponse
-import com.example.forumserver.core.entity.projection.ThreadEntityPairProjection
+import com.example.forumserver.core.entity.projections.ThreadEntityPairProjection
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*

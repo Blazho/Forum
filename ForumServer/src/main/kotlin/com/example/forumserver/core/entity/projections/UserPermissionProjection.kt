@@ -1,4 +1,4 @@
-package com.example.forumserver.core.entity.projection
+package com.example.forumserver.core.entity.projections
 
 import com.example.forumserver.core.entity.enums.PermissionLayer
 

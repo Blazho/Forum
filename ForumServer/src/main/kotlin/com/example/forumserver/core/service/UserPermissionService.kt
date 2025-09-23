@@ -2,10 +2,10 @@ package com.example.forumserver.core.service
 
 import com.example.forumserver.core.entity.enums.EntityStatus
 import com.example.forumserver.core.entity.enums.PermissionLayer
-import com.example.forumserver.core.entity.helper_class.Permission
-import com.example.forumserver.core.entity.helper_class.User
-import com.example.forumserver.core.entity.helper_class.UserPermisson
-import com.example.forumserver.core.entity.projection.UserPermissionProjection
+import com.example.forumserver.core.entity.tables.Permission
+import com.example.forumserver.core.entity.tables.User
+import com.example.forumserver.core.entity.tables.UserPermission
+import com.example.forumserver.core.entity.projections.UserPermissionProjection
 import com.example.forumserver.core.repository.UserPermissionRepository
 import org.springframework.stereotype.Service
 import java.lang.RuntimeException
@@ -17,14 +17,14 @@ class UserPermissionService(
     private val permissionService: PermissionService,
     private val authService: AuthService
 ) {
-    fun findUserPermission(permission: Permission): UserPermisson {
+    fun findUserPermission(permission: Permission): UserPermission {
         val authentication = authService.getCurrentUser()
         return userPermissionRepository.findByUserAndPermission(authentication, permission)
             ?: throw RuntimeException("Permission for user is not found exception")
     }
 
     fun addPermission(forUser: User, permission: Permission, permissionLayer: PermissionLayer, authenticatedUser: User) {
-        userPermissionRepository.save(UserPermisson(
+        userPermissionRepository.save(UserPermission(
             id = null,
             user = forUser,
             permission = permission,
@@ -39,10 +39,10 @@ class UserPermissionService(
 
     fun addPermissions(forUser: User, permissions: Map<Permission, PermissionLayer>, authenticatedUser: User){
 
-        val userPermissionList = mutableListOf<UserPermisson>()
+        val userPermissionList = mutableListOf<UserPermission>()
 
         permissions.forEach { (key, value) ->
-            userPermissionList.add(UserPermisson(
+            userPermissionList.add(UserPermission(
                 id = null,
                 user = forUser,
                 permission = key,

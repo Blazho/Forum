@@ -1,7 +1,7 @@
 package com.example.forumserver.api.dto
 
 import com.example.forumserver.core.entity.enums.EntityStatus
-import com.example.forumserver.core.entity.helper_class.Permission
+import com.example.forumserver.core.entity.tables.Permission
 import java.time.LocalDateTime
 
 

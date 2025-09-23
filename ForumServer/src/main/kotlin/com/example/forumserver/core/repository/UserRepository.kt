@@ -1,6 +1,6 @@
 package com.example.forumserver.core.repository
 
-import com.example.forumserver.core.entity.helper_class.User
+import com.example.forumserver.core.entity.tables.User
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 

@@ -1,6 +1,6 @@
 package com.example.forumserver.core.configuration
 
-import com.example.forumserver.core.entity.helper_class.PermissionsConfig
+import com.example.forumserver.core.entity.helpers.PermissionsConfig
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

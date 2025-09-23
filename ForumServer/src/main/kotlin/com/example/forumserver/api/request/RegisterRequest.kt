@@ -1,6 +1,6 @@
 package com.example.forumserver.api.request
 
-import com.example.forumserver.core.entity.helper_class.Role
+import com.example.forumserver.core.entity.tables.Role
 
 data class RegisterRequest (
     val username: String,

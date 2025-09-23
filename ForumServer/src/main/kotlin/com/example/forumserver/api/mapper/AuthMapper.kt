@@ -4,8 +4,8 @@ import com.example.forumserver.api.request.LoginRequest
 import com.example.forumserver.api.request.RegisterRequest
 import com.example.forumserver.api.response.LoginResponse
 import com.example.forumserver.core.entity.enums.PermissionLayer
-import com.example.forumserver.core.entity.helper_class.Permission
-import com.example.forumserver.core.entity.helper_class.PermissionsConfig
+import com.example.forumserver.core.entity.tables.Permission
+import com.example.forumserver.core.entity.helpers.PermissionsConfig
 import com.example.forumserver.core.service.AuthService
 import com.example.forumserver.core.service.PermissionService
 import com.example.forumserver.core.service.UserDetailsService

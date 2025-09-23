@@ -1,4 +1,4 @@
-package com.example.forumserver.core.entity.helper_class
+package com.example.forumserver.core.entity.helpers
 
 import com.example.forumserver.core.entity.enums.PermissionLayer
 

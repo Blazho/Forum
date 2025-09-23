@@ -1,4 +1,4 @@
-package com.example.forumserver.core.entity.projection
+package com.example.forumserver.core.entity.projections
 
 interface ThreadEntityPairProjection {
     val id: Long?

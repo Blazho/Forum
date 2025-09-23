@@ -1,8 +1,8 @@
 package com.example.forumserver.core.repository
 
 import com.example.forumserver.core.entity.enums.EntityStatus
-import com.example.forumserver.core.entity.helper_class.PostEntity
-import com.example.forumserver.core.entity.helper_class.ThreadEntity
+import com.example.forumserver.core.entity.tables.PostEntity
+import com.example.forumserver.core.entity.tables.ThreadEntity
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
