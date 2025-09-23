@@ -4,9 +4,9 @@ import com.example.forumserver.core.configuration.JwtUtil
 import com.example.forumserver.core.entity.enums.EntityStatus
 import com.example.forumserver.core.entity.enums.PermissionLayer
 import com.example.forumserver.core.entity.events.UserCreatedEvent
-import com.example.forumserver.core.entity.helper_class.Permission
-import com.example.forumserver.core.entity.helper_class.Role
-import com.example.forumserver.core.entity.helper_class.User
+import com.example.forumserver.core.entity.tables.Permission
+import com.example.forumserver.core.entity.tables.Role
+import com.example.forumserver.core.entity.tables.User
 import com.example.forumserver.core.repository.UserRepository
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.security.authentication.AuthenticationManager

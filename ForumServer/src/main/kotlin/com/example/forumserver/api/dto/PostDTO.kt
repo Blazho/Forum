@@ -1,7 +1,7 @@
 package com.example.forumserver.api.dto
 
 import com.example.forumserver.core.entity.enums.EntityStatus
-import com.example.forumserver.core.entity.helper_class.PostEntity
+import com.example.forumserver.core.entity.tables.PostEntity
 import java.time.LocalDateTime
 
 data class PostDTO(

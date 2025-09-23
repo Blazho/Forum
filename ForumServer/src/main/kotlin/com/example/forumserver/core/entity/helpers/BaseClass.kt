@@ -1,12 +1,14 @@
-package com.example.forumserver.core.entity.helper_class
+package com.example.forumserver.core.entity.helpers
 
 import com.example.forumserver.core.entity.enums.EntityStatus
+import com.example.forumserver.core.entity.tables.User
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
+import jakarta.persistence.ManyToOne
 import jakarta.persistence.MappedSuperclass
 import jakarta.persistence.OneToOne
 import java.time.LocalDateTime
@@ -20,10 +22,10 @@ abstract class BaseClass (
     open val dateCreated: LocalDateTime,
     open val lastDateModified: LocalDateTime,
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "created_by")
     open val createdBy : User?,
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "last_modified_by")
     open val lastModifiedBy: User?,
 

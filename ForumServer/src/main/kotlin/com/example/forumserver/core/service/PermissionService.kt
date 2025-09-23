@@ -2,7 +2,7 @@ package com.example.forumserver.core.service
 
 import com.example.forumserver.api.dto.PermissionDTO
 import com.example.forumserver.core.entity.enums.EntityStatus
-import com.example.forumserver.core.entity.helper_class.Permission
+import com.example.forumserver.core.entity.tables.Permission
 import com.example.forumserver.core.repository.PermissionRepository
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable

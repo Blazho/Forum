@@ -1,8 +1,8 @@
 package com.example.forumserver.core.entity.events
 
 import com.example.forumserver.core.entity.enums.PermissionLayer
-import com.example.forumserver.core.entity.helper_class.Permission
-import com.example.forumserver.core.entity.helper_class.User
+import com.example.forumserver.core.entity.tables.Permission
+import com.example.forumserver.core.entity.tables.User
 import org.springframework.context.ApplicationEvent
 
 class UserCreatedEvent(

@@ -1,7 +1,7 @@
 package com.example.forumserver.api.dto
 
 import com.example.forumserver.core.entity.enums.EntityStatus
-import com.example.forumserver.core.entity.helper_class.ThreadEntity
+import com.example.forumserver.core.entity.tables.ThreadEntity
 import java.time.LocalDateTime
 
 data class ThreadDTO(

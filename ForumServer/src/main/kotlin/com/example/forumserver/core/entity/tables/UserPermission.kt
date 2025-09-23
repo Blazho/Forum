@@ -1,18 +1,14 @@
-package com.example.forumserver.core.entity.helper_class
+package com.example.forumserver.core.entity.tables
 
 import com.example.forumserver.core.entity.enums.EntityStatus
 import com.example.forumserver.core.entity.enums.PermissionLayer
-import jakarta.persistence.Entity
-import jakarta.persistence.EnumType
-import jakarta.persistence.Enumerated
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.ManyToOne
-import jakarta.persistence.Table
+import com.example.forumserver.core.entity.helpers.BaseClass
+import jakarta.persistence.*
 import java.time.LocalDateTime
 
 @Entity
 @Table(name = "user_permissions", schema = "forum_post")
-data class UserPermisson(
+data class UserPermission(
 
     override val id: Long?,
 
@@ -29,12 +25,8 @@ data class UserPermisson(
 
     override val lastDateModified: LocalDateTime,
 
-    @ManyToOne
-    @JoinColumn(name = "created_by") //todo move to base class
     override val createdBy: User? = null,
 
-    @ManyToOne
-    @JoinColumn(name = "last_modified_by") //todo move to base class
     override val lastModifiedBy: User? = null,
 
     override val entityStatus: EntityStatus

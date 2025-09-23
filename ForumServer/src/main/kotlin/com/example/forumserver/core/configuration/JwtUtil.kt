@@ -1,6 +1,6 @@
 package com.example.forumserver.core.configuration
 
-import com.example.forumserver.core.entity.helper_class.User
+import com.example.forumserver.core.entity.tables.User
 import io.jsonwebtoken.*
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Component

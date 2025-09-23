@@ -2,8 +2,8 @@ package com.example.forumserver.core.service
 
 import com.example.forumserver.api.dto.ThreadDTO
 import com.example.forumserver.core.entity.enums.EntityStatus
-import com.example.forumserver.core.entity.helper_class.ThreadEntity
-import com.example.forumserver.core.entity.projection.ThreadEntityPairProjection
+import com.example.forumserver.core.entity.tables.ThreadEntity
+import com.example.forumserver.core.entity.projections.ThreadEntityPairProjection
 import com.example.forumserver.core.repository.ThreadRepository
 import org.springframework.data.domain.Page
 import org.springframework.stereotype.Service
@@ -114,7 +114,10 @@ class ThreadService(
 
     fun deleteThread(threadToDel: ThreadEntity): String {
         threadRepository.save(
-            threadToDel.copy(entityStatus = EntityStatus.DELETED)
+            threadToDel.copy(
+                entityStatus = EntityStatus.DELETED,
+                lastModifiedBy = authService.getCurrentUser()
+            )
         )
 
         return "Thread deleted successfully"

@@ -2,7 +2,7 @@ package com.example.forumserver.core.service
 
 import com.example.forumserver.api.dto.PostDTO
 import com.example.forumserver.core.entity.enums.EntityStatus
-import com.example.forumserver.core.entity.helper_class.PostEntity
+import com.example.forumserver.core.entity.tables.PostEntity
 import com.example.forumserver.core.repository.PostRepository
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -63,7 +63,10 @@ class PostService(
 
     fun deletePost(post: PostEntity): String {
         postRepository.save(
-            post.copy(entityStatus = EntityStatus.DELETED)
+            post.copy(
+                entityStatus = EntityStatus.DELETED,
+                lastModifiedBy = authService.getCurrentUser()
+            )
         )
 
         return "Post successfully deleted"
